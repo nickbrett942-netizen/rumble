@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rumble | Roblox Rivals Scripts</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap');
+        
+        body { font-family: 'Inter', system_ui, sans-serif; }
+        .title-font { font-family: 'Playfair Display', sans-serif; }
+
+        .hero-bg {
+            background: linear-gradient(135deg, #0a1428 0%, #1e3a8a 100%);
+        }
+
+        .card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
+        }
+    </style>
+</head>
+<body class="bg-zinc-950 text-zinc-200">
+    <!-- Navbar -->
+    <nav class="bg-black border-b border-zinc-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-bolt text-white text-2xl"></i>
+                </div>
+                <h1 class="title-font text-4xl font-bold tracking-tighter text-white">RUMBLE</h1>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-10 text-sm font-medium">
+                <a href="#" class="nav-link text-zinc-300 hover:text-white">Home</a>
+                <a href="#products" class="nav-link text-zinc-300 hover:text-white">Scripts</a>
+                <a href="#discord" class="nav-link text-zinc-300 hover:text-white">Discord</a>
+            </div>
+
+            <a href="#discord" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 transition-colors rounded-2xl text-sm font-semibold flex items-center gap-2">
+                <i class="fab fa-discord"></i>
+                <span>Join Discord</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero-bg py-24">
+        <div class="max-w-5xl mx-auto px-6 text-center">
+            <h1 class="title-font text-7xl md:text-8xl font-bold tracking-tighter mb-6">
+                RUMBLE<br>
+                <span class="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">ROBLOX RIVALS</span>
+            </h1>
+            <p class="max-w-2xl mx-auto text-xl text-zinc-400 mb-10">
+                Elite scripts &amp; externals for Roblox Rivals
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#products" class="px-10 py-4 bg-white text-zinc-950 rounded-3xl font-semibold text-lg flex items-center justify-center gap-3 hover:bg-zinc-100">
+                    Browse Scripts
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products -->
+    <section id="products" class="py-20 bg-zinc-950">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-5xl font-bold text-center mb-12">Featured Products</h2>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Kicia Lua -->
+                <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-8 card">
+                    <div class="flex justify-between mb-6">
+                        <h3 class="text-3xl font-bold">Kicia Lua</h3>
+                        <span class="px-4 py-1 bg-emerald-500/10 text-emerald-400 text-sm rounded-2xl">Premium</span>
+                    </div>
+                    <div class="bg-black p-5 rounded-2xl font-mono text-sm mb-6 break-all">
+                        loadstring(game:HttpGet("https://api.jnkie.com/api/v1/luascripts/public/49b8d52e1d647a32b42dcc0ada6d9cd3b13895e3fdeaaea0c7e9e9a4906b19eb/download"))()
+                    </div>
+                    <a href="#discord" class="block w-full text-center py-4 bg-blue-600 hover:bg-blue-500 rounded-2xl font-semibold">
+                        Get Free Key (Discord)
+                    </a>
+                </div>
+
+                <!-- KiciaHook -->
+                <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-8 card">
+                    <div class="flex justify-between mb-6">
+                        <h3 class="text-3xl font-bold">KiciaHook</h3>
+                        <span class="px-4 py-1 bg-emerald-500/10 text-emerald-400 text-sm rounded-2xl">Free</span>
+                    </div>
+                    <div class="bg-black p-5 rounded-2xl font-mono text-sm mb-6 break-all">
+                        loadstring(game:HttpGet("https://raw.githubusercontent.com/kiciahook/kiciahook/refs/heads/main/loader.luau"))()
+                    </div>
+                    <a href="https://ads.luarmor.net/get_key?for=-SMXIkbgLHBUc" target="_blank" 
+                       class="block w-full text-center py-4 bg-blue-600 hover:bg-blue-500 rounded-2xl font-semibold">
+                        Get Key
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Discord -->
+    <section id="discord" class="py-20 bg-zinc-900 text-center">
+        <div class="max-w-md mx-auto px-6">
+            <i class="fab fa-discord text-7xl text-blue-500 mb-6"></i>
+            <h2 class="text-4xl font-bold mb-4">Join Our Discord</h2>
+            <p class="text-zinc-400 mb-8">Get free keys, updates, and support</p>
+            <a href="https://discord.gg/YOUR_INVITE_HERE" target="_blank"
+               class="inline-block px-10 py-4 bg-indigo-600 hover:bg-indigo-500 rounded-3xl font-semibold text-lg">
+                Join Discord Server
+            </a>
+        </div>
+    </section>
+
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+            alert("Script copied to clipboard!");
+        }
+    </script>
+</body>
+</html>
