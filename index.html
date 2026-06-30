@@ -7,10 +7,15 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:wght@700&amp;display=swap');
         
-        body { font-family: 'Inter', system_ui, sans-serif; }
-        .title-font { font-family: 'Playfair Display', sans-serif; }
+        body {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .title-font {
+            font-family: 'Playfair Display', sans-serif;
+        }
 
         .hero-bg {
             background: linear-gradient(135deg, #0a1428 0%, #1e3a8a 100%);
@@ -19,9 +24,33 @@
         .card {
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+        
         .card:hover {
             transform: translateY(-8px);
             box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
+        }
+
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #3b82f6;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .luxury-glow {
+            text-shadow: 0 0 20px rgba(59, 130, 246, 0.5);
         }
     </style>
 </head>
@@ -40,28 +69,48 @@
                 <a href="#" class="nav-link text-zinc-300 hover:text-white">Home</a>
                 <a href="#products" class="nav-link text-zinc-300 hover:text-white">Scripts</a>
                 <a href="#discord" class="nav-link text-zinc-300 hover:text-white">Discord</a>
+                <a href="#" class="nav-link text-zinc-300 hover:text-white">Support</a>
             </div>
 
-            <a href="#discord" class="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 transition-colors rounded-2xl text-sm font-semibold flex items-center gap-2">
-                <i class="fab fa-discord"></i>
-                <span>Join Discord</span>
-            </a>
+            <div class="flex items-center space-x-4">
+                <a href="https://discord.gg/HTgmQbDBfg" 
+                   class="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 transition-colors rounded-2xl text-sm font-semibold flex items-center gap-2">
+                    <i class="fab fa-discord"></i>
+                    <span>Join Discord</span>
+                </a>
+            </div>
         </div>
     </nav>
 
     <!-- Hero -->
     <section class="hero-bg py-24">
         <div class="max-w-5xl mx-auto px-6 text-center">
-            <h1 class="title-font text-7xl md:text-8xl font-bold tracking-tighter mb-6">
+            <div class="mb-6">
+                <span class="inline-flex items-center px-5 py-2 bg-zinc-900/80 text-emerald-400 text-sm font-medium rounded-3xl border border-emerald-500/30">
+                    <span class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse mr-2"></span>
+                    ROBLOX RIVALS SCRIPTS
+                </span>
+            </div>
+            
+            <h1 class="title-font text-7xl md:text-8xl font-bold tracking-tighter mb-6 luxury-glow">
                 RUMBLE<br>
-                <span class="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">ROBLOX RIVALS</span>
+                <span class="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">SCRIPTS</span>
             </h1>
+            
             <p class="max-w-2xl mx-auto text-xl text-zinc-400 mb-10">
-                Elite scripts &amp; externals for Roblox Rivals
+                Elite Lua scripts for Roblox Rivals. Clean. Fast. Undetected.
             </p>
+            
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#products" class="px-10 py-4 bg-white text-zinc-950 rounded-3xl font-semibold text-lg flex items-center justify-center gap-3 hover:bg-zinc-100">
-                    Browse Scripts
+                <a href="#products" 
+                   class="px-10 py-4 bg-white text-zinc-950 rounded-3xl font-semibold text-lg flex items-center justify-center gap-3 hover:bg-zinc-100 transition-all">
+                    <i class="fas fa-shopping-bag"></i>
+                    BROWSE SCRIPTS
+                </a>
+                <a href="#discord" 
+                   class="px-10 py-4 border border-zinc-400 hover:border-white text-white rounded-3xl font-semibold text-lg flex items-center justify-center gap-3 transition-all">
+                    <i class="fab fa-discord"></i>
+                    GET FREE KEY
                 </a>
             </div>
         </div>
@@ -70,59 +119,164 @@
     <!-- Products -->
     <section id="products" class="py-20 bg-zinc-950">
         <div class="max-w-7xl mx-auto px-6">
-            <h2 class="text-5xl font-bold text-center mb-12">Featured Products</h2>
-            
+            <div class="flex justify-between items-end mb-12">
+                <div>
+                    <span class="uppercase tracking-widest text-blue-400 text-sm font-medium">Our Arsenal</span>
+                    <h2 class="title-font text-5xl font-bold tracking-tight">Featured Scripts</h2>
+                </div>
+                <a href="#" class="text-blue-400 hover:text-blue-300 flex items-center gap-2 text-sm font-medium">
+                    VIEW ALL 
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+
             <div class="grid md:grid-cols-2 gap-8">
                 <!-- Kicia Lua -->
-                <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-8 card">
-                    <div class="flex justify-between mb-6">
-                        <h3 class="text-3xl font-bold">Kicia Lua</h3>
-                        <span class="px-4 py-1 bg-emerald-500/10 text-emerald-400 text-sm rounded-2xl">Premium</span>
+                <div class="card bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden">
+                    <div class="h-2 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
+                    <div class="p-8">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-blue-500/10 rounded-2xl flex items-center justify-center">
+                                    <i class="fas fa-code text-3xl text-blue-400"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-2xl">Kicia Lua</h3>
+                                    <p class="text-emerald-400 text-sm">Premium Script</p>
+                                </div>
+                            </div>
+                            <span class="px-5 py-1 bg-emerald-900/50 text-emerald-400 text-xs font-mono rounded-2xl">UNDETECTED</span>
+                        </div>
+                        
+                        <div class="bg-black/50 border border-zinc-800 rounded-2xl p-6 mb-8 font-mono text-sm leading-relaxed text-zinc-300">
+                            loadstring(game:HttpGet("https://api.jnkie.com/api/v1/luascripts/public/49b8d52e1d647a32b42dcc0ada6d9cd3b13895e3fdeaaea0c7e9e9a4906b19eb/download"))()
+                        </div>
+
+                        <div class="flex items-center justify-between text-sm">
+                            <div class="flex items-center gap-2 text-zinc-400">
+                                <i class="fas fa-key"></i>
+                                <span>Free Key via Discord</span>
+                            </div>
+                            <a href="#discord" 
+                               class="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-2xl font-semibold text-sm transition-colors">
+                                GET KEY
+                            </a>
+                        </div>
                     </div>
-                    <div class="bg-black p-5 rounded-2xl font-mono text-sm mb-6 break-all">
-                        loadstring(game:HttpGet("https://api.jnkie.com/api/v1/luascripts/public/49b8d52e1d647a32b42dcc0ada6d9cd3b13895e3fdeaaea0c7e9e9a4906b19eb/download"))()
-                    </div>
-                    <a href="#discord" class="block w-full text-center py-4 bg-blue-600 hover:bg-blue-500 rounded-2xl font-semibold">
-                        Get Free Key (Discord)
-                    </a>
                 </div>
 
                 <!-- KiciaHook -->
-                <div class="bg-zinc-900 border border-zinc-700 rounded-3xl p-8 card">
-                    <div class="flex justify-between mb-6">
-                        <h3 class="text-3xl font-bold">KiciaHook</h3>
-                        <span class="px-4 py-1 bg-emerald-500/10 text-emerald-400 text-sm rounded-2xl">Free</span>
+                <div class="card bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden">
+                    <div class="h-2 bg-gradient-to-r from-violet-500 to-fuchsia-400"></div>
+                    <div class="p-8">
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-violet-500/10 rounded-2xl flex items-center justify-center">
+                                    <i class="fas fa-hook text-3xl text-violet-400"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-2xl">KiciaHook</h3>
+                                    <p class="text-emerald-400 text-sm">Free Script</p>
+                                </div>
+                            </div>
+                            <span class="px-5 py-1 bg-emerald-900/50 text-emerald-400 text-xs font-mono rounded-2xl">FREE</span>
+                        </div>
+                        
+                        <div class="bg-black/50 border border-zinc-800 rounded-2xl p-6 mb-8 font-mono text-sm leading-relaxed text-zinc-300 overflow-auto">
+                            loadstring(game:HttpGet("https://raw.githubusercontent.com/kiciahook/kiciahook/refs/heads/main/loader.luau"))()
+                        </div>
+
+                        <div class="flex items-center justify-between text-sm">
+                            <div>
+                                <a href="https://ads.luarmor.net/get_key?for=-SMXIkbgLHBUc" 
+                                   target="_blank"
+                                   class="inline-flex items-center gap-2 text-blue-400 hover:text-blue-300">
+                                    <i class="fas fa-external-link-alt"></i>
+                                    <span>Get Key</span>
+                                </a>
+                            </div>
+                            <button onclick="copyScript(this)" 
+                                    class="px-6 py-3 border border-zinc-700 hover:border-zinc-400 rounded-2xl font-semibold text-sm transition-colors">
+                                COPY SCRIPT
+                            </button>
+                        </div>
                     </div>
-                    <div class="bg-black p-5 rounded-2xl font-mono text-sm mb-6 break-all">
-                        loadstring(game:HttpGet("https://raw.githubusercontent.com/kiciahook/kiciahook/refs/heads/main/loader.luau"))()
-                    </div>
-                    <a href="https://ads.luarmor.net/get_key?for=-SMXIkbgLHBUc" target="_blank" 
-                       class="block w-full text-center py-4 bg-blue-600 hover:bg-blue-500 rounded-2xl font-semibold">
-                        Get Key
-                    </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Discord -->
-    <section id="discord" class="py-20 bg-zinc-900 text-center">
-        <div class="max-w-md mx-auto px-6">
-            <i class="fab fa-discord text-7xl text-blue-500 mb-6"></i>
-            <h2 class="text-4xl font-bold mb-4">Join Our Discord</h2>
-            <p class="text-zinc-400 mb-8">Get free keys, updates, and support</p>
-            <a href="https://discord.gg/YOUR_INVITE_HERE" target="_blank"
-               class="inline-block px-10 py-4 bg-indigo-600 hover:bg-indigo-500 rounded-3xl font-semibold text-lg">
-                Join Discord Server
-            </a>
+    <!-- Discord CTA -->
+    <section id="discord" class="py-20 bg-gradient-to-br from-zinc-900 to-black border-t border-b border-zinc-800">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <div class="max-w-md mx-auto">
+                <i class="fab fa-discord text-7xl text-blue-500 mb-6"></i>
+                <h2 class="text-4xl font-bold mb-4">Join the Rumble Community</h2>
+                <p class="text-zinc-400 mb-8">
+                    Get your free keys, updates, and support directly from our official Discord server.
+                </p>
+                <a href="https://discord.gg/HTgmQbDBfg" 
+                   target="_blank"
+                   class="inline-flex items-center justify-center gap-3 bg-indigo-600 hover:bg-indigo-500 px-10 py-4 rounded-3xl text-lg font-semibold transition-all w-full sm:w-auto">
+                    <i class="fab fa-discord text-2xl"></i>
+                    JOIN DISCORD SERVER
+                </a>
+            </div>
         </div>
     </section>
 
+    <!-- Footer -->
+    <footer class="bg-black py-12 border-t border-zinc-800">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-blue-600 rounded-2xl flex items-center justify-center">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <span class="title-font text-3xl font-bold">RUMBLE</span>
+                </div>
+                
+                <div class="text-zinc-500 text-sm">
+                    © 2026 Rumble • Roblox Rivals Scripts
+                </div>
+                
+                <div class="flex gap-6 text-zinc-400">
+                    <a href="#" class="hover:text-white transition-colors">Terms</a>
+                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                    <a href="#" class="hover:text-white transition-colors">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        function copyToClipboard(text) {
-            navigator.clipboard.writeText(text);
-            alert("Script copied to clipboard!");
+        // Tailwind script already loaded
+        
+        function copyScript(btn) {
+            const scriptText = `loadstring(game:HttpGet("https://raw.githubusercontent.com/kiciahook/kiciahook/refs/heads/main/loader.luau"))()`;
+            navigator.clipboard.writeText(scriptText).then(() => {
+                const original = btn.innerHTML;
+                btn.innerHTML = `<i class="fas fa-check"></i> COPIED!`;
+                btn.classList.add('!border-emerald-400', '!text-emerald-400');
+                setTimeout(() => {
+                    btn.innerHTML = original;
+                    btn.classList.remove('!border-emerald-400', '!text-emerald-400');
+                }, 2000);
+            });
         }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                if (this.getAttribute('href') !== '#') {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
     </script>
 </body>
 </html>
