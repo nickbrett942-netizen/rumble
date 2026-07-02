@@ -100,7 +100,6 @@
 
     <!-- Shop Tab -->
     <div id="shopTab" class="container">
-        <!-- Free Cards -->
         <div class="card">
             <span class="card-tag">Free</span>
             <div>
@@ -127,7 +126,6 @@
             </div>
         </div>
 
-        <!-- LEAF -->
         <div class="card">
             <span class="card-tag">Premium</span>
             <div>
@@ -147,7 +145,15 @@
     <div id="accountTab" class="container" style="display:none;">
         <div class="card">
             <h2>My Purchased Keys</h2>
-            <div id="purchasedKeys"></div>
+            <div id="purchasedKeys" style="margin-top:15px;"></div>
+            
+            <div style="margin-top:30px; padding:20px; background:#1e222b; border-radius:12px;">
+                <h3>Redemption Instructions</h3>
+                <p>1. Join our Discord server:<br>
+                   <a href="https://discord.gg/JUcaTn3PkK" target="_blank" style="color:#00d2ff;">https://discord.gg/JUcaTn3PkK</a></p>
+                <p>2. Go to the <strong>#LEAF</strong> channel</p>
+                <p>3. Paste your key there to redeem it.</p>
+            </div>
         </div>
     </div>
 
@@ -169,7 +175,7 @@
         let stock = localStorage.getItem('leafStock') ? parseInt(localStorage.getItem('leafStock')) : 100;
         let purchased = JSON.parse(localStorage.getItem('purchasedKeys')) || [];
 
-        const availableKeys = [ /* All your keys */
+        const availableKeys = [
             "8d55b65a-78bd-46d8-a40a-f4c96014d1e7","bd36d79a-4afe-4213-840b-bda359d0db5d","26d82425-9d14-40d9-b349-f3ee0553e789",
             "991726e1-018c-485d-a9a6-1f77cb1a471f","469457a6-9416-49bf-9d9b-6ca7e6b36471","84ff9561-b759-42ef-ac10-3f1f0948dc52",
             "7ed950bd-18fd-4727-a414-7adbdd4e9c7e","33d8bab8-89f6-4d10-ac94-1180254b308b","6dfc5d92-bb95-4480-b082-2c66a954f16e",
@@ -239,7 +245,6 @@
             }, 600);
         }
 
-        // Tab system
         function showTab(n) {
             document.getElementById('shopTab').style.display = n === 0 ? 'grid' : 'none';
             document.getElementById('accountTab').style.display = n === 1 ? 'block' : 'none';
