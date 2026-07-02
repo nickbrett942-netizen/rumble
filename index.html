@@ -22,7 +22,7 @@
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
         }
         body {
-            background-color: var(--bg-main);
+            background: var(--bg-main) url('https://i.redd.it/if7tb8y3u3781.gif') center/cover no-repeat fixed;
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
@@ -32,47 +32,22 @@
             overflow-x: hidden;
             position: relative;
         }
-
-        /* Snowfall Background */
-        body::before {
+        /* Dark overlay for better readability on the snow gif */
+        body::after {
             content: '';
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('https://i.imgur.com/0Z8qKzL.gif') repeat;
-            background-size: cover;
-            opacity: 0.45;
-            z-index: -2;
-            pointer-events: none;
-            animation: snowfall 25s linear infinite;
-        }
-
-        @keyframes snowfall {
-            0% { background-position: 0 0; }
-            100% { background-position: 0 1000px; }
-        }
-
-        /* Extra subtle glow layer */
-        body::after {
-            content: '';
-            position: fixed;
-            top: -10%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 800px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(0, 112, 243, 0.12) 0%, transparent 70%);
+            background: rgba(10, 10, 12, 0.75);
             z-index: -1;
             pointer-events: none;
         }
-
         header {
             text-align: center;
             margin-bottom: 25px;
             z-index: 2;
-            position: relative;
         }
         header h1 {
             font-size: 3.5rem;
@@ -90,8 +65,6 @@
             font-size: 1.1rem;
             letter-spacing: 1px;
         }
-
-        /* Top Discord Banner */
         .discord-banner {
             display: inline-flex;
             align-items: center;
@@ -109,7 +82,6 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             z-index: 2;
-            position: relative;
         }
         .discord-banner:hover {
             background: var(--discord-color);
@@ -117,12 +89,6 @@
             box-shadow: 0 0 20px rgba(88, 101, 242, 0.4);
             transform: translateY(-2px);
         }
-        .discord-banner svg {
-            fill: currentColor;
-            width: 20px;
-            height: 20px;
-        }
-
         .container {
             width: 100%;
             max-width: 1000px;
@@ -131,7 +97,6 @@
             gap: 30px;
             justify-content: center;
             z-index: 2;
-            position: relative;
         }
         .card {
             background: var(--bg-card);
@@ -230,10 +195,7 @@
             color: var(--text-muted);
             font-size: 0.85rem;
             z-index: 2;
-            position: relative;
         }
-
-        /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -255,7 +217,7 @@
         <h1>Rumble</h1>
         <p>Premium & Undetected Roblox Rivals Scripts</p>
     </header>
-    
+
     <!-- Top Discord Banner -->
     <a href="https://discord.gg/78tc6Y6xvd" target="_blank" class="discord-banner">
         <svg viewBox="0 0 127.14 96.36">
@@ -265,7 +227,6 @@
     </a>
 
     <div class="container">
-     
         <!-- Card 1: Kicia Lua -->
         <div class="card">
             <span class="card-tag">Free</span>
@@ -275,8 +236,8 @@
                 <div class="code-box" id="kiciaLuaCode">loadstring(game:HttpGet("https://api.jnkie.com/api/v1/luascripts/public/49b8d52e1d647a32b42dcc0ada6d9cd3b13895e3fdeaaea0c7e9e9a4906b19eb/download"))()</div>
             </div>
             <div class="button-group">
-                <button class="btn btn-secondary view-more-btn" data-target="kiciaLuaCode">View Script</button>
-                <a href="https://discord.gg/neyKuC7fyb" target="_blank" class="btn btn-secondary" style="display: none;">Get Free Key (Discord)</a>
+                <button class="btn btn-primary view-more-btn" data-target="kiciaLuaCode">View More</button>
+                <a href="https://discord.gg/neyKuC7fyb" target="_blank" class="btn btn-secondary">Get Free Key (Discord)</a>
             </div>
         </div>
 
@@ -289,8 +250,8 @@
                 <div class="code-box" id="kiciaHookCode">loadstring(game:HttpGet("https://raw.githubusercontent.com/kiciahook/kiciahook/refs/heads/main/loader.luau"))()</div>
             </div>
             <div class="button-group">
-                <button class="btn btn-secondary view-more-btn" data-target="kiciaHookCode">View Script</button>
-                <a href="https://ads.luarmor.net/get_key?for=-SMXIkbgLHBUc" target="_blank" class="btn btn-secondary" style="display: none;">Get Free Key</a>
+                <button class="btn btn-primary view-more-btn" data-target="kiciaHookCode">View More</button>
+                <a href="https://ads.luarmor.net/get_key?for=-SMXIkbgLHBUc" target="_blank" class="btn btn-secondary">Get Free Key</a>
             </div>
         </div>
 
@@ -303,8 +264,8 @@
                 <div class="code-box" id="leafCode">loadstring(game:HttpGet("https://api.jnkie.com/api/v1/luascripts/public/81232806ae760804190bbd03e89b9c046a91ef175056d49eef4f32ad487bb9c5/download"))()</div>
             </div>
             <div class="button-group">
-                <button class="btn btn-secondary view-more-btn" data-target="leafCode">View Script</button>
-                <a href="https://discord.gg/78tc6Y6xvd" target="_blank" class="btn btn-secondary" style="display: none;">Join Discord</a>
+                <button class="btn btn-primary view-more-btn" data-target="leafCode">View More</button>
+                <a href="https://discord.gg/78tc6Y6xvd" target="_blank" class="btn btn-secondary">Join Discord</a>
             </div>
         </div>
     </div>
@@ -314,30 +275,21 @@
     </footer>
 
     <script>
-        // Toggle script visibility
-        document.querySelectorAll('.view-more-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
+        // Toggle code visibility
+        document.querySelectorAll('.view-more-btn').forEach(button => {
+            button.addEventListener('click', function() {
                 const targetId = this.getAttribute('data-target');
                 const codeBox = document.getElementById(targetId);
-                const card = this.closest('.card');
-                const keyBtn = card.querySelector('a.btn-secondary');
-
+                
                 if (codeBox.style.display === 'block') {
-                    // Hide
                     codeBox.style.display = 'none';
-                    this.textContent = 'View Script';
-                    if (keyBtn) keyBtn.style.display = 'none';
+                    this.textContent = 'View More';
                 } else {
-                    // Show
                     codeBox.style.display = 'block';
-                    this.textContent = 'Hide Script';
-                    if (keyBtn) keyBtn.style.display = 'inline-flex';
+                    this.textContent = 'Hide';
                 }
             });
         });
-
-        // Optional: Copy functionality if you want to re-add it later
-        // function copyScript(elementId) { ... }
     </script>
 </body>
 </html>
