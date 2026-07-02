@@ -69,7 +69,6 @@
             text-align: center; cursor: pointer;
         }
         .btn-gradient { background: linear-gradient(135deg, #00d2ff, #0070f3); color: white; font-weight: 700; }
-
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.95); z-index: 1000; align-items: center; justify-content: center;
@@ -88,16 +87,13 @@
         <h1>Rumble</h1>
         <p>Premium & Undetected Roblox Rivals Scripts</p>
     </header>
-
     <div class="nav">
         <button class="nav-btn active" onclick="showTab(0)">Shop</button>
         <button class="nav-btn" onclick="showTab(1)">My Account</button>
     </div>
-
     <a href="https://discord.gg/HTgmQbDBfg" target="_blank" class="discord-banner">
         Join Rumble Discord
     </a>
-
     <!-- Shop Tab -->
     <div id="shopTab" class="container">
         <div class="card">
@@ -112,7 +108,6 @@
                 <a href="https://discord.gg/neyKuC7fyb" target="_blank" class="btn btn-secondary">Get Free Key (Discord)</a>
             </div>
         </div>
-
         <div class="card">
             <span class="card-tag">Free</span>
             <div>
@@ -125,7 +120,6 @@
                 <a href="https://ads.luarmor.net/get_key?for=-SMXIkbgLHBUc" target="_blank" class="btn btn-secondary">Get Free Key</a>
             </div>
         </div>
-
         <div class="card">
             <span class="card-tag">Premium</span>
             <div>
@@ -140,13 +134,12 @@
             </div>
         </div>
     </div>
-
     <!-- My Account Tab -->
     <div id="accountTab" class="container" style="display:none;">
         <div class="card">
             <h2>My Purchased Keys</h2>
             <div id="purchasedKeys" style="margin-top:15px;"></div>
-            
+           
             <div style="margin-top:30px; padding:20px; background:#1e222b; border-radius:12px;">
                 <h3>Redemption Instructions</h3>
                 <p>1. Join our Discord server:<br>
@@ -156,7 +149,6 @@
             </div>
         </div>
     </div>
-
     <!-- Payment Modal -->
     <div id="paymentModal" class="modal">
         <div class="modal-content">
@@ -168,14 +160,11 @@
             <button onclick="closeModal()" style="background:transparent;border:1px solid #555;color:#aaa;padding:8px 20px;">Cancel</button>
         </div>
     </div>
-
     <footer>&copy; 2026 Rumble. All rights reserved.</footer>
-
     <script>
-        let stock = localStorage.getItem('leafStock') ? parseInt(localStorage.getItem('leafStock')) : 100;
         let purchased = JSON.parse(localStorage.getItem('purchasedKeys')) || [];
-
         const availableKeys = [
+            "0c1f6f3e-e970-4536-bb45-1b3ab442e551","93cc1922-9112-4328-9b3a-eb83b3a4b9f2",
             "8d55b65a-78bd-46d8-a40a-f4c96014d1e7","bd36d79a-4afe-4213-840b-bda359d0db5d","26d82425-9d14-40d9-b349-f3ee0553e789",
             "991726e1-018c-485d-a9a6-1f77cb1a471f","469457a6-9416-49bf-9d9b-6ca7e6b36471","84ff9561-b759-42ef-ac10-3f1f0948dc52",
             "7ed950bd-18fd-4727-a414-7adbdd4e9c7e","33d8bab8-89f6-4d10-ac94-1180254b308b","6dfc5d92-bb95-4480-b082-2c66a954f16e",
@@ -200,25 +189,24 @@
             "6bdecc14-e642-483d-b3b3-2f4044afe41d","635c52de-b6a0-45bc-9003-08884b41819d","32938606-1637-462b-9525-51397cc5344a",
             "23584984-6535-4a08-aa48-fe3e3a13fba3","82afaa2a-0f0c-4582-86a8-a7fddfde7bb5","e05e624a-b7eb-4529-a66f-044c294f45a7",
             "30c48cb5-6c58-40de-a873-ebf5eab6fbd7","04e7e4f8-b50c-4779-b344-929744b4e477","ca59561b-5da1-460b-87e5-93548ab0af8f",
-            "f3e0194c-b6e4-4dbf-bdce-f7104d3881de","165c90b2-cbe9-41ec-9911-c7ac8363aa51","61cb7ad8-ee42-4622-bcd1-172194a8f9e1",
-            "542de564-cb29-4543-966e-7ab3d3104fd6","296465c0-86b6-44bd-bf0c-c02d21840827","62a48b35-1f2f-461c-bd94-4abda0b178f8",
-            "89430e2d-d8e7-4fc2-906a-e73963ff0142","e6b2aa7c-5d2e-4350-9da0-29371751c984","6fe4fcf5-2dd7-48a4-ab54-ca971da771aa",
-            "2904375d-fefd-418d-8234-4e05abae7d6a","1427e583-d8b1-40bd-adeb-3d66b45f8fea","8ce4159f-2adc-4993-80a3-868f47eee9d0",
-            "630934a4-beb3-41be-85ea-50dc98b85f34","03beda9f-31f8-4b7e-b8a4-a689b03e186c","2a16376f-f3d0-4450-978e-0e2a28ae8341",
-            "c0009c78-0836-4843-82a1-902ef2e093a2","fdd0eb1a-e92a-4317-9ffe-2646327378e8","9b5dbd2f-cad4-4a35-89b3-24432a7f2506",
-            "c3d3e200-677e-48af-acec-9f517d581d0b","9dd5e991-6dff-41d7-b3b7-881b7978d69d","4945cb53-8153-4950-8142-3105eb0a4167",
-            "76e9042c-2d60-42e4-aac1-2f735002b6b0","d4deeac9-8db0-470a-a6d8-e8c59e8d08bd","4ccab8d4-a1f2-4aef-8a11-43b54c823730",
-            "9e6ca432-761f-42f2-b1a3-eebe65a6c71d","939cbb6d-bc37-4716-9f29-4062b148b7a7","3013444d-0915-4c15-a518-5ae5caf9d536",
-            "6c8569fb-c826-45ce-8b7f-f24714103b65","d12cc621-bc6e-4b0f-9114-162cb12254c2"
+            "f3e0194c-b6e4-4dbf-bdce-f7104d3881de","61cb7ad8-ee42-4622-bcd1-172194a8f9e1","542de564-cb29-4543-966e-7ab3d3104fd6",
+            "296465c0-86b6-44bd-bf0c-c02d21840827","62a48b35-1f2f-461c-bd94-4abda0b178f8","89430e2d-d8e7-4fc2-906a-e73963ff0142",
+            "e6b2aa7c-5d2e-4350-9da0-29371751c984","6fe4fcf5-2dd7-48a4-ab54-ca971da771aa","2904375d-fefd-418d-8234-4e05abae7d6a",
+            "1427e583-d8b1-40bd-adeb-3d66b45f8fea","8ce4159f-2adc-4993-80a3-868f47eee9d0","630934a4-beb3-41be-85ea-50dc98b85f34",
+            "03beda9f-31f8-4b7e-b8a4-a689b03e186c","2a16376f-f3d0-4450-978e-0e2a28ae8341","c0009c78-0836-4843-82a1-902ef2e093a2",
+            "fdd0eb1a-e92a-4317-9ffe-2646327378e8","9b5dbd2f-cad4-4a35-89b3-24432a7f2506","c3d3e200-677e-48af-acec-9f517d581d0b",
+            "9dd5e991-6dff-41d7-b3b7-881b7978d69d","4945cb53-8153-4950-8142-3105eb0a4167","76e9042c-2d60-42e4-aac1-2f735002b6b0",
+            "d4deeac9-8db0-470a-a6d8-e8c59e8d08bd","4ccab8d4-a1f2-4aef-8a11-43b54c823730","9e6ca432-761f-42f2-b1a3-eebe65a6c71d",
+            "939cbb6d-bc37-4716-9f29-4062b148b7a7","3013444d-0915-4c15-a518-5ae5caf9d536","6c8569fb-c826-45ce-8b7f-f24714103b65",
+            "d12cc621-bc6e-4b0f-9114-162cb12254c2"
         ];
 
         function updateStock() {
-            localStorage.setItem('leafStock', stock);
-            document.getElementById('stockDisplay').innerHTML = `Stock: <strong>${stock}</strong> keys left`;
+            document.getElementById('stockDisplay').innerHTML = `Stock: <strong>${availableKeys.length}</strong> keys left`;
         }
 
         function showPaymentModal() {
-            if (stock <= 0) return alert("Out of Stock!");
+            if (availableKeys.length <= 0) return alert("Out of Stock!");
             document.getElementById('paymentModal').style.display = 'flex';
         }
 
@@ -227,19 +215,14 @@
         }
 
         function processPurchase() {
-            if (stock <= 0 || availableKeys.length === 0) return;
-
+            if (availableKeys.length === 0) return;
             const index = Math.floor(Math.random() * availableKeys.length);
             const newKey = availableKeys[index];
             availableKeys.splice(index, 1);
-
-            stock--;
             purchased.push(newKey);
             localStorage.setItem('purchasedKeys', JSON.stringify(purchased));
-
             updateStock();
             closeModal();
-
             setTimeout(() => {
                 alert(`✅ Payment Successful!\n\nYour Lifetime Key:\n\n${newKey}\n\nYou can also find it in "My Account"`);
             }, 600);
@@ -273,6 +256,7 @@
             });
         });
 
+        // Initialize
         updateStock();
     </script>
 </body>
