@@ -32,7 +32,6 @@
             overflow-x: hidden;
             position: relative;
         }
-        /* Dark overlay for better readability on the snow gif */
         body::after {
             content: '';
             position: absolute;
@@ -217,7 +216,7 @@
         <h1>Rumble</h1>
         <p>Premium & Undetected Roblox Rivals Scripts</p>
     </header>
-
+    
     <!-- Top Discord Banner -->
     <a href="https://discord.gg/78tc6Y6xvd" target="_blank" class="discord-banner">
         <svg viewBox="0 0 127.14 96.36">
@@ -227,7 +226,7 @@
     </a>
 
     <div class="container">
-        <!-- Card 1: Kicia Lua -->
+        <!-- Card 1: Kicia Lua (unchanged) -->
         <div class="card">
             <span class="card-tag">Free</span>
             <div>
@@ -241,7 +240,7 @@
             </div>
         </div>
 
-        <!-- Card 2: Kiciahook -->
+        <!-- Card 2: Kiciahook (unchanged) -->
         <div class="card">
             <span class="card-tag">Free</span>
             <div>
@@ -255,17 +254,22 @@
             </div>
         </div>
 
-        <!-- Card 3: LEAF -->
+        <!-- Card 3: LEAF - Premium Buy Key -->
         <div class="card">
-            <span class="card-tag">Free</span>
+            <span class="card-tag" style="background: rgba(255, 193, 7, 0.15); border-color: #ffc107; color: #ffc107;">Premium</span>
             <div>
                 <h2>LEAF</h2>
-                <p>Powerful free script with advanced combat tools, visuals, and smooth performance for Roblox Rivals.</p>
+                <p>Powerful premium script with advanced combat tools, visuals, and smooth performance for Roblox Rivals. HWID-locked keys via Junkie.</p>
                 <div class="code-box" id="leafCode">loadstring(game:HttpGet("https://api.jnkie.com/api/v1/luascripts/public/81232806ae760804190bbd03e89b9c046a91ef175056d49eef4f32ad487bb9c5/download"))()</div>
             </div>
             <div class="button-group">
-                <button class="btn btn-primary view-more-btn" data-target="leafCode">View More</button>
-                <a href="https://discord.gg/78tc6Y6xvd" target="_blank" class="btn btn-secondary">Join Discord</a>
+                <button class="btn btn-primary view-more-btn" data-target="leafCode">View Loader</button>
+                <!-- === BUY KEY BUTTON (Junkie) === -->
+                <a href="https://jnkie.com/get-key/leaf-rumble" target="_blank" 
+                   class="btn btn-primary" 
+                   style="background: linear-gradient(135deg, #00d2ff, #0070f3); font-weight: 700;">
+                    Buy Key Now
+                </a>
             </div>
         </div>
     </div>
@@ -280,7 +284,7 @@
             button.addEventListener('click', function() {
                 const targetId = this.getAttribute('data-target');
                 const codeBox = document.getElementById(targetId);
-                
+               
                 if (codeBox.style.display === 'block') {
                     codeBox.style.display = 'none';
                     this.textContent = 'View More';
