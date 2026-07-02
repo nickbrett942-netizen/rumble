@@ -59,7 +59,6 @@
             background: rgba(255,193,7,0.15); border: 1px solid #ffc107; color: #ffc107;
             padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600;
         }
-        .stock { color: #0f0; font-weight: bold; margin: 12px 0; }
         .code-box { display: none; background: #070709; border: 1px solid #1a1a22; border-radius: 8px; padding: 12px;
             font-family: monospace; color: #00d2ff; margin: 15px 0; max-height: 120px; overflow-y: auto; }
         .button-group { display: flex; flex-direction: column; gap: 10px; }
@@ -94,13 +93,13 @@
         Join Rumble Discord
     </a>
 
+    <!-- Shop Tab -->
     <div id="shopTab" class="container">
         <div class="card">
             <span class="card-tag">Premium</span>
             <div>
                 <h2>LEAF</h2>
                 <p>Powerful Lifetime premium script with advanced combat tools and visuals.</p>
-                <div class="stock" id="stockDisplay">Stock: <strong>Loading...</strong></div>
                 <div class="code-box" id="leafCode">loadstring(game:HttpGet("https://api.jnkie.com/api/v1/luascripts/public/81232806ae760804190bbd03e89b9c046a91ef175056d49eef4f32ad487bb9c5/download"))()</div>
             </div>
             <div class="button-group">
@@ -110,13 +109,22 @@
         </div>
     </div>
 
+    <!-- My Account Tab -->
     <div id="accountTab" class="container" style="display:none;">
         <div class="card">
             <h2>My Purchased Keys</h2>
             <div id="purchasedKeys" style="margin-top:15px;"></div>
+            <div style="margin-top:30px; padding:20px; background:#1e222b; border-radius:12px;">
+                <h3>Redemption Instructions</h3>
+                <p>1. Join our Discord server:<br>
+                   <a href="https://discord.gg/JUcaTn3PkK" target="_blank" style="color:#00d2ff;">https://discord.gg/JUcaTn3PkK</a></p>
+                <p>2. Go to the <strong>#LEAF</strong> channel</p>
+                <p>3. Paste your key there to redeem it.</p>
+            </div>
         </div>
     </div>
 
+    <!-- Payment Modal -->
     <div id="paymentModal" class="modal">
         <div class="modal-content">
             <h2>Buy LEAF Lifetime Key</h2>
@@ -132,19 +140,276 @@
     <script>
         let purchased = JSON.parse(localStorage.getItem('purchasedKeys')) || [];
 
-        // Global Stock System
-        if (localStorage.getItem('leafGlobalStock') === null) {
-            localStorage.setItem('leafGlobalStock', 100);
-        }
-
-        function updateStock() {
-            const stock = parseInt(localStorage.getItem('leafGlobalStock')) || 0;
-            document.getElementById('stockDisplay').innerHTML = `Stock: <strong>${stock}</strong> keys left`;
-        }
+        const availableKeys = [
+            "7bd32eb0-d954-4aca-8379-e23b0e13bf0f","912f0fc4-327f-49eb-beb6-722db325f5a2","debb41f3-e78e-4af7-8423-298b81cc31cd",
+            "6e1174a0-ea1b-4182-a596-6982ae57aa35","057f4500-9c2f-4520-9c64-0c342bf85795","1ddab0b8-0f50-497b-aabf-3628310b4e45",
+            "578db6e9-6af0-4c10-8cf2-1a2eee0fe08c","5f0d8c00-d2c2-446e-9485-712b8fd19ff5","210ecae8-f6d6-4ec2-9db8-fe196d266cfb",
+            "bf91d380-fb97-4924-a67e-5c3fc315f016","029a0868-9741-4f99-942f-c935bfb80990","bb78b8e3-e38c-4b83-a463-01aca8f9932d",
+            "f29d2540-c441-42b1-aec3-9b8e7aade8ab","bed64d48-527d-4c91-b6b3-e98c284132db","58bce9d8-e99a-4a6a-a173-b4fbc5554d1f",
+            "61be0451-eb71-408f-a726-3e55e83ef498","6f1fd7c8-b58c-4aee-ae6f-5446b1acc1ce","5ef00428-3315-48eb-839f-a2b57a0376e2",
+            "aa301158-c10a-4bf0-80af-2483a6b8097d","c3ac4634-91c4-41f6-9759-472025560e19","6eda2b39-78fa-4200-acfe-b65a0f654e9e",
+            "d6bf7a54-dbc7-4825-9446-1d43a896f660","fb02a781-05ce-4710-8e7e-b6199786a16b","344c7979-ac75-4f1c-931e-38eef0b156f8",
+            "367d991e-a2a5-4535-af07-c44e91e4a9dc","0e79bc5c-aaac-4cc9-a8c2-7187d8a80478","653c1d2d-5ecd-498b-8ebd-dbc4b28e03d4",
+            "774bdef1-134e-4b6c-a873-3733680fabd1","09b5e6cf-bfd3-44a2-be39-14bc9e8c035a","3ecff0f2-3650-4682-a93c-10eb46cd4ed1",
+            "c6d70df2-0c85-4207-8d76-d9fc35ddf7c3","fbcd8ead-b4d0-4632-b10b-69fcab75ca06","cea95733-0214-449c-afdf-7485b6ad98cd",
+            "82518826-307b-4f55-b6a5-e4edc4d2b7d7","e3bac50a-7db7-44ee-9fb9-33d28671487f","ddf37ed0-bb1d-4376-bf09-7e1f69b83ad9",
+            "ee513b9c-43aa-40fc-a69d-5e2f7008f0d7","6b5f2751-5b1c-4f80-9ac3-78b1a8f2cfaa","3f96952d-02f0-4191-a87c-fa0778d1eeef",
+            "0b229da7-cc72-43b6-80ef-2f953fe34b99","4a9e5e27-9d07-49c8-b5e2-9a94f5b93194","2d0f9b01-eeb1-486a-8e1e-eded760fd00a",
+            "a5d3bda0-4bbd-42c9-a33e-10ab3d6c3091","65d05d7f-bb30-42e2-944b-4006a32d09cb","0cdd467d-efaa-4b84-a6d3-24bfb2a67204",
+            "4ef944b8-5ec8-4b52-bf87-f31d0046bf35","b8b6136c-7830-4ff5-a58c-e49012e53a13","1a69e5da-8252-4ee3-a732-b02340ef7a34",
+            "261b82e6-7034-48bc-bb00-85c5fa64e1e7","08965f01-c433-4320-b0e0-492572efd1f2","e72f3916-993e-4778-a0c7-486b564a5f8d",
+            "bb3ef44d-9088-4b23-b29e-d7512b801a43","2dc53ffd-6226-4f1b-ab7f-ba2be7e3fde6","5809a3ba-d4bc-401a-bde9-85b937cbd11e",
+            "bb49abda-7af5-4a11-b64e-ca090f1ddaa7","f36164b8-1394-4b86-8679-60df14d02f9a","1284984f-803a-4431-9d03-8151000584fb",
+            "d5f848c4-00d8-45e5-8a33-f9952ace5a14","bc338843-caf6-4471-8edc-4118f93acb3f","e660a196-1275-4702-a42e-dcc0e546a7af",
+            "6c369ba8-2bd6-4854-9228-4f53c3803379","6be0abbd-313e-4064-97f3-597085a06883","ba264431-5cb2-4b9b-90eb-a1517e21b90b",
+            "1275636f-7e3c-4ee0-a3d2-8ab2de68a322","1c517f88-44b6-49d5-a46a-bea7b8e4188c","b1438432-4d3f-4ccf-8126-6729868db989",
+            "56c02171-1de2-466d-acfd-d72f797532b7","9d5a8d51-f0e7-4463-b8ed-20c42277fe07","dfad0410-e167-4e70-be8c-ab8cfbb64119",
+            "10255339-2789-47f8-8a91-7f1da8f5fb69","35177e37-d061-4925-8f67-fd232fcc9e99","511bf2e2-2492-4256-ab25-642875f4fc04",
+            "735b236b-6376-4ad6-a3b9-98e0ac16e695","cd4e2ee6-b733-4eb0-a73e-36a1fa345c2a","bc894431-5204-4ad7-a10f-e2dcf59ffb18",
+            "419ca3c7-f76e-4df0-8ecc-6c9f6c060cd0","0ed35556-5959-4c34-b949-a0950c5faf3d","b61e077b-426e-4787-b8ca-10e49c3f64dd",
+            "c33fc61d-77b5-4519-940e-5b5186b5a7a5","84de1ed2-855f-4d9b-8364-8890028f676a","9a2b6899-c669-4047-a497-a14414457e71",
+            "459b5648-87c4-44f0-893b-4770f6f13fee","e86ac9e4-5c07-4aaf-bc14-8862874b28e6","eccb742b-f9a1-4f0f-9db5-6860e9454f91",
+            "f1d6ef3d-b2ef-462b-8cc5-f54e97623dad","80772555-9e9e-4624-ab1e-4fc1149f6588","f239f1e4-4958-4bdc-a043-7d191891261d",
+            "3f99a611-b083-44fd-bb89-3154c6b4683c","ce1b52b6-2456-460e-a959-f289b3998161","a2c53ac0-783f-481e-81a5-a726fde9d05a",
+            "8a6230ca-ce93-4393-a3d9-49fbedd89085","671926a5-f6e4-4dbc-b573-acf7d0e21983","a9609b02-4392-4203-88c7-34089120143c",
+            "be0bd18d-3135-44f7-a2c6-044043fe8a68","1621c725-3be0-4c9a-8762-ae34dbaffbb1","bc891b61-025d-43b1-8c13-145a3059932d",
+            "0a45a7b3-5c73-4428-8287-8339d5732c6e","56501eca-f430-4008-b60b-fab8498b7fe2","effdb41f-63dc-419a-877a-67ad1eb9eacc",
+            "ca68c102-271e-494f-88a3-4d065c1a4853","ec067a67-5c76-421e-a6e7-ed41e3aa6661","244eccd6-8338-44d7-8d3d-9eed877e63cb",
+            "539fbecf-0e8f-4aa1-ad89-816cabf0e40c","5feef364-0886-407a-b490-674ac3d69ace","d3b7dde3-2230-4654-b17b-9ad33c37edd6",
+            "84d8c82a-608d-40ab-b210-b49be310ad8e","cef86cae-6c98-48da-b66b-b91c22863fd4","2648ecac-55ac-408e-ab50-e5e4b3407143",
+            "7ae9924e-c273-41c1-bac4-dbb44b6754cb","1d865d8d-9d57-468e-b80f-bca2f169a809","609fd79a-9023-45b5-88a0-9e1aa99f919d",
+            "088cc4e3-4ea7-4071-b0ab-5d102cfb25f1","3fa87fae-56ba-44fc-8a1e-908193f2bd44","be8b50b2-b9da-480f-8875-a5db136b40eb",
+            "1e60f5c5-24e6-4366-b603-d236c4f77420","bcd7078d-9ae7-44c5-ae63-55822586260a","b58bb60f-d3b7-47b0-b6b2-250e58528ecc",
+            "c0be82d1-2c31-49de-a14b-f7875d9cfc5a","3ea571a2-fd5e-4692-9e80-29cd9704a2bd","1ded5892-0b8b-4b44-afe7-878999e355d8",
+            "f8ddd06b-e18e-4077-9b9a-74b532807490","8344c6cc-f000-4cf1-b91f-19e00b0b74e3","283c2411-85b9-4d8b-af65-660cfc5d5d02",
+            "ec41c972-f2cc-4eaa-9eaf-9f8a9bac74bb","00f68213-889d-455b-9dab-d254341e1d3f","1d4d12cb-7469-40c6-9bef-2efa209c2428",
+            "95cd1aa4-a276-49e2-953c-ddbbaf0d873d","370df6d0-633e-4ceb-9ab5-861823b118bd","c68109a2-0a3b-41aa-bf0e-86146fae3945",
+            "50376ec2-980b-47ad-9e44-01bc6db130c6","01194c2a-10cd-4706-9ee7-71d0b8e7e923","29116968-9603-4cda-b985-4534dbeb4714",
+            "0c9a5fd2-9b9f-4b80-9e42-36193ca8877c","92b5711f-fa45-4777-9381-a28893764b92","00fe00ae-6d60-4b43-a328-4321c334a3f6",
+            "c2a239d1-4840-4731-b182-11c28f7af720","67ac8de5-e36d-44b5-bce0-f8d21d4e143e","ac9f5766-f6f3-4582-a8c6-afc9eb35a3d9",
+            "9433d526-c737-4e51-b80a-dfa3a8448fc0","9e7640c9-f5a1-40cc-9381-0c7992084aa1","c80fee58-eadb-4386-828e-e5d3cf496ca7",
+            "d4ee72ed-e922-47a7-a441-7e5a288773ce","292b52d7-a0ee-42c1-8078-0bcd20840331","df7db31f-80c3-4703-9f86-5d0634590c61",
+            "79aa7537-f5cc-40b6-98b2-3960124025ac","d06c6e5b-5786-4609-a802-66fd3e7fafb3","3b5061af-2f69-4ccd-86b3-b1346dba81ac",
+            "38595970-f9ce-4cd6-b9ab-cc0e52d72b8b","e858fd2c-ff72-4b00-aff3-faadc476216f","1e7a762a-e1d1-4728-9652-d10dd1b2fe20",
+            "5dd58a9c-f925-4634-9f9e-ed4ca21fd1a8","6a0428f7-8c62-41c1-8130-6b66f668db70","1f256c15-ed15-43f0-a96e-1d6f72b2c2c3",
+            "b7f3a16d-9b5a-4aef-8194-78e3df634be0","0b3b8aba-9e45-4b4b-9676-71373ef46207","e5a24b9b-49a3-40d1-b6c1-67499528e93d",
+            "160ae734-85f0-4d79-9d12-50fa2242b259","1d108b51-1bff-4de8-b46a-c2a0a3f8a522","ac719a1a-e963-4324-8441-856230bc3812",
+            "f139c79e-d3ec-492c-9995-27c82c43779e","7dc308f3-72cb-4840-a9a0-911e15ac3e41","644a1466-d547-4f52-a626-3b10bdbd16eb",
+            "6ed1af13-bd80-40ae-9a97-0321f25bbe21","088f8027-6f82-4bc2-b764-548a9d72a190","b02859b5-faef-4994-9f35-ecfd37b771ec",
+            "bbc7a139-da72-4664-9bee-ee22501925e6","6c1f7dda-9af5-4ceb-b2fe-eef7f83f6df1","9c5ad286-8943-4bc9-9f76-2ad25720ce5b",
+            "41bfc880-fcf8-4a26-a10d-d485039ecab9","be05d472-a13b-49fa-b1d0-fdd66024a10c","5b183d56-5695-4e9b-9a32-36ee51ee3ef0",
+            "7b08cad1-84aa-4a5e-b299-a8838216275d","0e6c8999-5998-4c25-8667-5ff0c8a3cae6","306dda8a-e7aa-48d4-9e57-202abdf93547",
+            "d6cea1b0-b5bb-4bfe-ae56-8d3dd38489fa","a6837ca9-032b-4a6e-a9ab-3b20f627f673","55ff72e0-e2a5-4472-8b5d-7965a34ebb10",
+            "9d1fc04f-1540-462b-aaa6-7311a0c71a70","47ebc84b-b247-4b05-8652-4afd48ca69be","6ead139f-e33a-4f60-81fa-0af3f0fef303",
+            "a8c66236-4bd3-481e-bdd7-cf800baf02c4","0f88b32c-fd31-474e-99c7-d6f6bef25f67","8c730f5f-6578-4c0b-bd85-3b780921ff47",
+            "05009781-0e5b-4158-8e09-c32c787ed26a","8ae1715a-f4fa-4eda-abe5-55580aefd549","176c8925-662e-4ce9-95c3-e5018a2e651e",
+            "2e7b8687-d4da-4296-ad4a-6fded535b94b","a1761d09-8c0d-4ebd-9145-c024f13f3782","1dc778ea-70d2-495b-8e35-3f7cc0e39990",
+            "725aa323-e0a1-4a42-9e05-a839edbd6c8d","51b4b109-8853-4f64-aaf3-9371eaa56e7f","94ab02ee-5345-4cc7-9cc5-775dc6608f2c",
+            "9bbd3000-1104-49c8-9405-617b15d8ed50","245d5f39-f410-46b8-b29b-2e586d941017","578d320e-c5e2-4d8b-b175-183cb034e16b",
+            "f7b17ab3-0249-4e35-8464-98e55cb79fc3","63080ae9-57dc-4130-ba8a-20d391120516","2c1af7ed-a28a-4952-abd7-8616cbf83799",
+            "662dc013-e7e0-4ff7-939e-2272d045f0b7","cc187680-306e-4cfe-8563-ef42c629bf06","1dcdf0eb-5147-44ae-89ba-538407881830",
+            "1133cbc0-558a-4dc4-84ec-98841443ece3","db469bed-d6fd-4dec-978f-233100f99cde","49d0851d-8c55-48b0-bf72-99f990cf4dee",
+            "2b59eb04-fae9-4228-afb7-4d1d7940088a","818a9611-25a9-448c-9990-c6f52b7d313e","1288e6eb-2bfe-4173-890a-099506ea995f",
+            "8c3f11eb-dc68-41b7-9dbf-6ddbd8e591d7","2147910b-bc65-44dd-b088-874b048cdbf6","fa58fe78-65d0-4882-9b8f-1f412409f263",
+            "83ffbcc6-c4dc-46e9-b6d9-7bbe29e547b5","0092f769-7e9e-4572-a024-b6bb2f7c1820","09e46447-f9a6-46b1-8918-d294e7c6721b",
+            "863e55bd-6cd6-4588-af60-433c9b7550d2","c7019d5f-e33a-433e-a44c-3a9f6c3bde2b","3fc9623d-6281-4ff0-b168-23e877bfa92b",
+            "b3ddbead-8945-4ed9-99b9-eba735eb581e","c3ec80dc-c509-4396-8b57-6fdc02fae34d","39956170-4904-445f-9b0d-fdfc7b74bad6",
+            "bb7f1381-4f0a-4c41-82e3-5f74109e3e3d","404c2a62-18a6-47d0-bce7-57585e7a0587","16f7d4f5-86ff-45e4-b764-b9868332a568",
+            "10d809cd-5277-4e0a-8d56-52e4379b210c","86ff8b57-0427-4767-967b-2472cade0b9c","eef76dbc-63b5-45af-8277-1eab83c561d9",
+            "70993319-8c9d-4bfe-bfbc-9403c2f59c37","b6846bbd-424d-4732-805c-1adec558252f","d9a74018-80c6-4516-b9a8-a1e29d3b247f",
+            "1415cb0b-a432-4855-8fc8-99eaee880ad2","77ba98d3-9615-4626-915a-7da0ee801a1e","72e2812a-1a9b-4e21-bc57-a9409b98b80d",
+            "fe77fe43-58e9-4b8e-80a3-6ec3a920c1d0","4504e596-606e-412e-bd49-f8fcef3ac88b","3a7c14bb-6676-4652-a87a-d4beac665946",
+            "730f9a1e-31e9-4b33-86b6-819c5308328d","f484fdda-ed9c-4a86-963c-2e736f5d2d4a","45357cce-3dce-42a0-a49f-ca917364ff3b",
+            "9edeff9e-c9c4-4606-b7ac-6327b638bc38","cfa0674f-96fb-45ee-b912-1ccd923f31e0","54505553-f08a-4c67-b159-f37eec159d6a",
+            "8c159749-8b9c-4b69-adf4-0e13befba1cf","4e81e1a9-b68b-4f56-9eb0-e2dd7811b6eb","8e5334a3-c1a7-4bcf-94dd-d4b5d9ba7d94",
+            "ca7ff47a-de78-4bba-b366-6f205ed90f03","e2effae7-17d1-4df0-ab72-e86d1e58e94a","bb1fee9e-1a37-4de3-8125-5d396358e745",
+            "12ca010b-3548-4be9-87e0-dfcb85f13d96","f588e0f7-e90e-49d5-a4fa-33b724959e36","cc8aeecb-434b-4158-bb79-0d86fa0f99e8",
+            "e432201f-856d-4f42-a096-9ab9e5f68aa6","6a42f1f5-c43f-4ecc-b294-88f5647cdb6d","ce9d6617-beaf-4259-a57d-fea3bccbb792",
+            "24d01714-af76-4537-a135-0bfd58f1f305","e476ed1b-7a5f-4acf-8732-943e5dbe4774","dac4530a-7bc6-4e1a-8eb8-54275bd042e1",
+            "6ee583f6-7987-46af-9c07-3d57b0f33b77","021c61af-3bb2-416a-9bd9-6c487dc359bb","c9f23385-e131-439b-a414-75098e83aec1",
+            "f68199d6-03ad-485a-9945-94603fd4d3cf","6240c37b-708c-40ff-a6cf-61668f5d49cc","9adcea1e-5aa9-4f09-b333-be82baeee16c",
+            "3ea97268-b6bf-4a54-9c39-64ea8da576ec","d5bb4352-3900-452b-9b6f-b296436c1985","ed3da5d5-a0fc-46ba-88e3-3cc1893f8778",
+            "b53ee74f-7e2f-4855-9326-735cdc014b93","37d2febe-d71b-453a-aad0-f484a40f1d0e","c5d759b5-a323-4cfb-86df-9f34c79e4885",
+            "bf2a22e3-8533-4559-8883-3d994b2b9b8d","5924a4aa-e59c-4d11-ad11-1a87d148edbb","8d25bdc5-d9a1-4dd5-a3f0-1b51c03df046",
+            "cf9463fe-cc3b-493c-89a0-28c2b11df829","302a141d-a982-4d6b-a854-3c3ca3d8c8e1","310c47ee-744c-4720-8f18-2a7d7f49ed03",
+            "36eed529-ffda-4570-87a8-2f3d61bba513","746b39c6-4f24-49f5-a29a-d455c02cb1b4","b4a4e5c3-3edd-480d-98e2-df923ea4eb11",
+            "f135166d-2bba-445d-aea9-139884d165ca","6ffdf732-1fe6-4406-b7c8-ce043282e4cb","4d446d66-1ed7-4a77-b949-5791e352fc1f",
+            "18c8b5c4-e74d-44b8-bc7e-cb8d9dc579ce","d0d3ba4e-6d0b-4f74-8108-dfabb41f5313","68f086aa-2c5d-4808-a157-c32a2af0b80b",
+            "a6e02ff0-7bca-4588-9a05-75c4e58f8d5d","09306588-65dd-4cdb-b8a6-2f9925665a62","cd56ebbe-b119-4abe-bfb7-50a90c440cfc",
+            "c093cc76-fbf0-460a-8f20-6472e32055f1","333407b5-df2f-4538-a684-3c1e265498bc","ab513b02-a710-4d5c-92a0-fa13a7c6a95d",
+            "a317a377-cece-454e-b2d4-753725ebe0f0","cddd6c0b-f711-4bf0-8332-1fbfa5dd7f0b","3c9ab97b-48c1-4270-9d83-1e815d07a681",
+            "063f43ee-158a-453c-aeea-51005fd3496b","d748aef8-b536-4b8f-b151-97c531af7561","f7c2237b-09ac-4629-812c-cb12cc7fd840",
+            "6b9c70bb-1c5c-43c1-a43e-000ef8247aa9","b0c0c181-76d3-4f55-90c7-499ea308578d","22c538c7-7eae-47cc-9d06-0bc793724fe6",
+            "93cf14cf-4c06-48ac-ba22-571b429f6610","c3b1d58a-6234-4d1b-a6a9-6da708fc765d","b97854b4-b82d-42d6-ba22-cd24ef9d2f57",
+            "d7ab4222-78c3-4681-a660-c82893116b0c","0ff16b0c-7d78-4706-8025-c1ba2ac9042c","09535bd9-4ecd-4f40-8a05-cc9ae349d56b",
+            "c1456c9b-3b9a-47cb-96d4-4c3698a2c461","dad7f44e-7e95-4f5d-8cae-d0f607387f48","46313088-5386-4239-8caa-67615ba74de3",
+            "78e3112a-ce15-462e-abc9-eed926dd836c","84bb14d9-b7af-4736-bf44-26275b94d68f","8bad31bb-d13e-4e92-8fee-a54088f58f83",
+            "16a79da3-42d6-4fb1-b5b1-ccf44f5c56fc","6aee0e97-a4a7-4f42-a3cd-f1545893f0f8","9fc6496f-25b5-42f2-80df-b41c5a3e200e",
+            "3e1de7e3-7df9-4ddd-95c5-b17d29f13b27","b526e4cf-c649-4551-8a67-bf6fc9040179","b38f2aa1-3a1b-497d-a21c-25fd19db5290",
+            "ee439a3e-1e4f-4434-a01d-05b70e3b4296","d5861a2f-b863-4d63-8aa9-f7632e8defd3","349525b7-749c-4488-856a-069ad994dfb3",
+            "4a288607-6262-4521-bf9e-294850762efa","df278ea4-7295-4364-be72-005b79ce9e5f","3365e8c6-c93a-444e-8809-9f72bb4b770f",
+            "d17fef11-5a41-4653-a6ce-1fc9d1d631fc","8dd81aa9-b6de-4a23-a742-58e7de3b66db","7b1fbe2f-46be-4360-93e5-1784792dd442",
+            "f5498889-5763-46a2-a139-c37f7d0420c9","18722924-4dfe-4264-92d3-6a9224e2f655","bdbe66a5-df9a-48a1-94a2-acf81e84db24",
+            "f5d4748c-383f-434a-8b59-02de419c1a3c","188736bc-4157-4738-8f94-247722327b74","96ba8e6d-c3cb-4c92-a024-8b21fbc1ea5f",
+            "97a3094b-e936-461d-a557-0faa1e2adaab","2d223a45-5531-4b46-8138-de5de49c8efe","77dd3de4-26a4-4d2d-8032-deafa3436360",
+            "e25aa775-c65b-4df5-9c29-6d2fed3b1f80","189b4a1f-3b55-4b05-a66d-7ab6a7d7826f","435f04e2-47d9-469a-a822-70e05cf403db",
+            "c9a52b23-5f72-4e7d-9150-8c60c1888ee0","814fa5ee-d21d-419a-afc0-23da8a143136","796e99a1-ea51-4543-bd72-6f536b9d7835",
+            "bee7a831-db3e-493a-926f-cd5bd4d814c9","bbdde052-e041-4180-b0c1-2ac6ef846988","957da56e-5eea-4560-a41f-18a2b60fd893",
+            "76289f61-ca90-47c8-9ea7-675b86fdab67","21de3dfd-d677-4a6a-98c3-1e6960a1105f","2923a21a-48d8-414d-85aa-396b9134aa7f",
+            "f6db8a91-b039-4ec3-bbc0-4eb382eadaeb","f1b82696-bc19-4733-815a-3b4d538282fb","1dcfec2f-01cd-417a-83b3-c3b2b40650a3",
+            "94a1c649-a6c6-4b8a-bf4b-34f6bd496733","3094d42e-66d9-4316-b03c-b1370328d278","140a44b7-1e84-4db2-9ff5-34783cead408",
+            "65257f15-2d8e-4299-b174-f0bd6024d634","d3b7b633-b23a-44c1-83d9-69376dd86a3c","aad2d402-d5f9-4697-9fa3-a46475ff6a05",
+            "3449350c-4e02-43d0-b326-fc8f92ef692b","b6be2528-efab-4465-a00d-0f4ade94d919","beb77414-eeba-4def-a370-418911d10aab",
+            "604d04e0-04a1-48b2-9f34-03c2dbabbfce","273518d8-da61-4a91-a3f0-2e342b256548","b6e17263-6e96-4a49-9c07-b4e0f5a0b097",
+            "2748b371-ace7-478a-9af6-fee0ab697e35","ebb279e8-09ce-4fdc-8e98-45d7221a4a5b","41d24446-6797-4dc3-bd76-fb00c12867a0",
+            "31a088be-4a54-44ff-bb1e-b4c3b5d73996","104aee19-0ac1-499f-bd45-23037c2e5191","4f5474c2-cf51-4623-a576-b8749db27371",
+            "ec0d2e0e-ec54-4af3-b602-14db1b47080d","eb187158-f4ef-4c30-ba83-e9fbdde05c9c","8329db84-4400-4ba3-897f-e71ce1b25041",
+            "553cbbd4-f9d7-429b-a223-0311a565dd5a","e0de35ef-d756-4d4a-bbda-0ee7d430a8e8","adbcda18-f2a7-40e8-a99b-a9810fc7367b",
+            "5fd90d86-e423-4961-bfbe-91b6c4eebbb1","d5caa953-1fda-4a47-82b7-a19252832d56","a6a54b0d-4781-4fc6-9f63-69beb0d8b18e",
+            "2039911d-1255-4dc6-87d5-2af6a9913866","fc7b5ae2-893c-45a7-a44f-6d674f004970","3a4cd191-6732-4409-9a21-92670b712f57",
+            "ae7e9702-9601-415f-8216-0aa1c85c49a3","9095baf0-843e-4c67-bb30-b466c3e68a6a","ce42b58a-5cb9-4ecb-91fd-b268fc42d081",
+            "3030cbc8-b88e-4460-9249-5dc0c8ebb35a","ab873ffc-cd79-4d3a-aa51-b0ad46fa787a","6303b08b-d899-448b-80de-817cadd57113",
+            "a8071106-6a82-4f32-a097-cbc6a06a61a0","0d0022f0-f25f-4305-8de0-c40ddf0ee152","16a3c070-abbe-4241-af0c-d3cc6e93a1b2",
+            "a89c9791-e761-436e-937f-90a0b64a356f","46cfa1c2-a144-44b3-a557-11ee1ac0341b","3082d85d-66a8-4da6-8d70-7435999704fa",
+            "2088fe55-24b8-405d-9c8e-795963a49777","56b65563-74dd-4a68-928b-a7c4fcd65828","8e02f9d6-3f16-4c15-a7a0-86319bd417fa",
+            "a209d863-e379-416e-bde4-36a45c5116fd","210c2ece-6bba-4dda-8253-3c53fea104e0","26ece45c-be56-4cc3-9f24-ffc85d2b6687",
+            "70fc7b56-b804-4f97-974f-63386f50e5b2","9949284e-bac2-4b84-9f19-b3805a89d356","1525c6c3-a3dc-475c-8e79-781ac6494478",
+            "1763f731-ee5c-44b5-9a12-51f88b6ee1c0","0b58af1a-2b6a-4947-b845-a5881ac12d22","8eec6365-b794-4c58-9887-d29181de689b",
+            "4c649fc7-244e-4bd1-8d19-a84bd4d26c35","507dcb57-5a97-40d8-aed4-3e458ee35ca0","ea665c2c-8a43-47bf-8e9f-8489388a5cfa",
+            "6d1e09f7-0d12-4480-85d4-364fbd92b5cd","fb29ad95-38b8-44f9-b535-b114a6ab5ee2","0f41b751-be8f-463e-8b88-68d90b2ab06c",
+            "63853d05-50e7-4caa-be09-08e82eba37b0","125e476c-6d1b-47ca-8d98-a92f21c09019","74154dac-b854-4139-988e-3d51f58547b9",
+            "cb5534c5-a37b-42c5-8a63-d448ae170182","f7769888-1723-4d08-8495-f83f30874310","1f28c54a-f175-4ea3-9aed-7868566a4f0f",
+            "fb560855-75e3-40e6-8485-3b145289ddd9","8720a826-9c45-4ed9-bcb4-28663bdfd1b6","5a37f55e-282f-415d-8a8c-171e92c61023",
+            "16fa8b82-0311-4f65-a5d4-b1633f43f6c6","865af643-1ccf-418c-a571-cddb4683c717","f1ad6250-fe9a-4eea-b315-4bce79fa3b76",
+            "44bff85f-643a-4645-94a2-ec8431e5ce4f","e0b29333-b152-451b-8589-8c482ee48fb9","395795aa-1ffc-4aae-8c08-f0696fa06ca5",
+            "cae4b1b2-d21c-4f53-8aac-10d1998c29eb","e4554b87-bd88-48fe-a9fc-4277876e5883","faa350aa-0684-4557-b35c-b3789c17965c",
+            "dccc927c-c297-468c-870f-f2ef5366aeb2","8826298b-77df-40c9-8e86-33b6d9889f51","06656d06-aaa4-4965-8f94-f1bd64bda45f",
+            "1e58c6ae-4e83-49cf-bc84-cb85334fb1a8","e3aec10a-6a97-437b-b739-22d2925baff4","f805a4c4-be83-4e67-96c2-00e0bd49155c",
+            "acd69514-8847-47ab-b839-24b44e6d4941","ddfe814a-248b-4038-b54d-2a6d1c879b36","0db89b12-41d8-4c10-98fa-63fd432da822",
+            "8a0ead9f-15ab-4a88-bb22-11859631dcd3","c997c40e-feb1-4c74-8de2-41b249e0636a","401407a4-0b5d-464a-b0f6-bd991751cdbe",
+            "c8cc3ccd-053e-4642-8564-36ec11d4372a","35816e41-1e2a-478d-89ae-f8068d50361c","b73ea8d8-edd7-4d0d-8cee-c8803879e524",
+            "aa0bf38a-1e77-4251-be27-e347119138fe","f28f79b9-1eeb-4c9e-8fe2-4de412a7eef8","273cdbd1-e68d-4179-89f0-bd42e602e7f2",
+            "b33786f4-f8a4-4ff4-9e22-9647e8acb5eb","10527f39-42f8-4663-aebb-23019b39eb8a","3f04b9ba-16c9-498a-8de9-58cd306dabd3",
+            "60132d7d-21d1-4dde-b453-ef453de8815a","f6c293d1-98d8-4a21-923b-8a5161c6fd0c","aa0a406c-d2ce-4ecf-bf49-c0bb0329eaee",
+            "53cb260f-5e0f-46eb-92ef-b85bf6a021c4","ab3ba801-00a1-4158-a805-01e0b793701f","5b27b270-e4a3-4b46-aa7c-92220bc39595",
+            "c792a830-b394-43df-9433-f661cc48a044","537d36f9-e582-45f8-881d-6fe58b0ae849","63bb1798-f4a3-4519-a233-426fc95c9cc5",
+            "255d9316-2435-46db-a751-2d6195c8bb60","5afb466b-1588-41bb-9007-114b676cdbda","586b4167-98b2-48ea-bd9e-286a9d37b2c7",
+            "a2e30721-721c-4f8a-b2c3-d0ff148ae44d","755e3ddb-e615-4b80-99a3-af4981c39067","d1e503a7-8494-4bed-bcd0-dbd257eb8273",
+            "0225f6cb-904f-480d-97f6-6b78f7012cb1","83f0cf72-957e-4222-bd46-0e95f430666b","2edd32a8-f702-4b08-85c9-a38ff34455eb",
+            "3f9236fc-2e0b-4477-a101-5a62a7994b2b","6cf98c04-5408-4704-93d5-0b5577067ff9","69ed6738-de51-4074-a1b5-d6be683b06b8",
+            "c326f392-18e3-4185-b209-4054b0b8b94e","faed5638-0194-43c4-93ca-704e59a7a4cd","aface887-a425-4afb-a998-74203b3cf8f8",
+            "5b97dd9a-6a0a-415b-b8d6-33f9b711accf","5ada7b0e-a557-4cdd-a4f7-b95621efdb16","49bf6e10-4b26-4d9d-aa62-1903bdfb13ed",
+            "63519ddf-6d27-432a-8c5b-1550809d1e1e","75d37ed4-01ca-421f-afad-5088ed5bbebc","8b63df0f-acd3-4f13-bc7a-66e4e77a55d5",
+            "d464d421-308e-41c2-8adf-d1e8ed4a024f","fc9f0780-a0bd-4114-8261-59d11d0992b6","a022d123-1784-457d-acb5-7775f16cbd30",
+            "4f32fdd1-921b-4ed5-87f1-92e2181aac6a","27df863c-e9b8-431a-86ce-c8e0bd13d60a","eed61d76-1d99-4747-a6c1-4137f9833f37",
+            "fb909dae-025e-4178-a414-8a55f408abeb","e006124a-042a-4bb5-850e-30949929b16b","134898d3-3c90-4179-bbbb-466aae4d4d66",
+            "305dda0f-8322-43d9-8115-f55772598e00","771794fc-48c8-455b-b7c3-129caa27e44f","4af37388-e60e-4c7c-9395-5d27b42ecbc4",
+            "e41585a5-585f-4155-a5c2-6f36e76f3800","1f8ea82b-2924-4028-8dbb-d3a081a613bb","cdbc51b2-90a5-4f70-ba01-96f9f496dfe1",
+            "1b4ff244-6cfd-4866-a082-20a6eddd7bde","5d5ed0fd-d817-4bc9-8142-8a0fe5bf4a0a","a7758279-7907-434a-9ff6-887eeb605b05",
+            "88454ce3-6caa-408c-9e2f-fcada752a3dd","29f7eb40-def6-4537-a77e-2587c93f5c7b","bd5c0c36-2880-4941-b0db-417769fabb53",
+            "4b53b045-523d-4ff7-86fe-bfc8db8a4c2c","10859e6c-027a-4ed6-87ef-4ef3f649e37e","dd4be8a3-35ac-4920-8656-634557b741f7",
+            "f0269fe6-31ab-4a43-8e75-0e1b4e4c393b","80227bff-e47f-429b-a5d2-73fcfecd6519","cf8d5ce0-7f6c-4665-8705-1ddfc12de870",
+            "e1a0b6a2-bc8d-4080-8271-0a66c7661128","4ccbb968-3b51-48ad-a481-bf746c909c48","d84e1710-56ac-4dae-ae2a-6cdb0a2800e7",
+            "60c8aa67-6864-49e9-bbf1-9afc62f63eda","99a5b93b-fb97-4035-9c63-733e3f2be38c","9024d960-fddd-4ff6-862b-56cd577790ac",
+            "cdae8808-5fac-4c00-8ce1-e71e2fc65355","cf6c04a2-8195-404b-80c3-83862b0d6748","f1f4ce42-7d88-4046-a6d7-4dab55fbf640",
+            "f9f39fa3-a225-4813-8ae9-fb5c125a59e9","1b520b6f-c715-4cc7-863b-f45400a8affc","1b220b38-8dc5-4570-9bae-b3895f8951bc",
+            "46b838ad-ad6f-4dda-8e8b-8c9467c66920","776dba0a-8aa1-47de-b8ad-34bcd739c258","90b168de-700f-4006-887c-773f536968ab",
+            "d77abbdd-d7fc-4945-bd35-e25978c1afab","d06227d6-897e-4c32-9a7e-c9846fba44d5","a97c0d95-b91f-4ba3-bfd0-85dd8669ec85",
+            "8e56f81b-73e2-45e8-9178-525d918cfa9d","cbcba232-c6f3-47e5-a98a-50e0a7497bb1","a93feb58-2b08-4116-a30a-aa9318d1df94",
+            "07b1c7b3-9abb-4395-b08e-9d812c2fcadd","41fd871c-b976-4ca9-92e4-41782a0b9261","a9d5922f-ad44-4c5a-b2fc-362e40d30179",
+            "c5fcb2c4-7557-4246-85b9-aff0a80eb2c0","4023c8f9-9bbc-4cf2-b150-4d25bda0eca5","6b4f6b34-5f26-445b-a4b1-b52d68c3542f",
+            "2d67b864-4e11-4bd4-af84-b74e3f31149a","0fb65d32-dacf-4963-85fa-9a34788d3889","2dc7ab89-463d-4ad7-b90a-878f0413b59c",
+            "bfea38ad-ec61-498d-a775-4c98c03fc450","c3bf1f11-e293-4c7a-b64c-7188ba5a5675","ec3c91e7-0193-459d-a14e-168fde0b0da4",
+            "d55de267-83fa-414c-acc1-7d6e583510f7","3d4ffa1e-4798-4242-8c7b-228c4d99019b","9a458953-3fe8-4f0b-8de3-8958b08eef8b",
+            "f59f98c7-4f6e-45d3-82ae-796f3628eed1","67b6f42f-3489-4064-9957-5d1a14f8dfe8","8bf4fdde-55f6-4541-a3cf-ced17303a1f0",
+            "48cd3308-0c2a-4a65-ba65-9b62ff7a3ab4","a015919b-0c79-4807-94f8-1e1dabf058a7","de02a60e-030d-45cb-a700-1e624ad12586",
+            "58d00ef9-e714-4da4-8035-62c8ca4159b7","b5264499-99dc-43fb-af37-de5f0355b276","0a06e333-93a6-4352-bd80-a57b363d5f9f",
+            "dfc964d5-57fb-40d8-8d1d-1a31527f53f4","146af976-a619-4c3e-a256-ec1e61c5f5c4","305e7cbb-8188-4c2c-a354-06924a0e25ef",
+            "48aab720-de15-4cdb-b4f2-3ae96e603feb","55e5dd63-8a4b-49df-b2c8-10897f32303a","e3bf6d5b-e269-41a9-a540-33f3e0e99d8f",
+            "deb34202-e74c-4259-8a34-b743a131a032","dbffd0ea-98ea-4e07-9ddb-ef13f9105e0f","dfef166d-6225-4526-8399-221ca38b0c6c",
+            "f76848d2-3b1c-497c-9bc6-421fd4cb344e","a2d674cc-378f-46b5-a83b-ec042fa74a6a","f350a820-fae0-4ced-8348-94004115809f",
+            "cde382cd-7eed-4c6d-a9fd-884f9f369741","aa859a2c-f02b-40c0-a8fd-7579a81d549f","0a50cca2-6908-4c3e-a2f9-d0864878ddb3",
+            "90bfd0da-9b2e-4db2-8fb1-ae149bd6209d","48d6291a-9d2a-4fcb-913b-79888e9c005d","09c754d8-239e-4aa5-8f4f-47927ff3344f",
+            "1cc0df17-bc37-499d-aa66-ebe49fb618c7","1c213d3e-0e68-4b12-beee-17c1f195acd0","cd65fc99-8b42-40b8-9ba8-5e9b6509b101",
+            "d6ba07f7-fc99-4530-85d2-69ba34e341af","fc20a86b-aae8-44cb-aa53-88a3af843c58","132fd52a-4aef-4bcf-8dde-8e51871e02f4",
+            "c098a014-92d4-4eca-ab66-375668745860","85b928b1-ef8e-4975-bfa0-8f562eda1abd","9f8ac037-cfb9-4e05-bf95-40a701fd275c",
+            "ab1b82e4-ca13-410b-afcd-2bbc924e1665","dea5d911-d8b3-492c-b1b5-06f7e05323f0","47919006-1bea-475c-9087-fb81c39c1441",
+            "7a359178-c77c-4b43-9022-0c83c4f1ee64","1be6f74d-96de-416d-a1a0-b19ccd571b53","95e99c52-8375-4946-9b09-a58376b44866",
+            "0d7846fe-ffde-420d-a9c1-e69781a8f328","a6014dad-a9a2-46a5-9a03-86150b32c530","d4af027e-7745-482c-ad72-1148ca5e02cd",
+            "717bd985-c693-450e-bd34-52da24899196","ca681b25-e668-4a7c-9012-c12fc4ad4923","5362cf8e-ad3f-4065-9625-736e29a67cc1",
+            "b2edf043-6a97-4f98-8089-d326199d945c","4feb6d49-4c57-47f7-bde3-3b55028738e7","02744529-1ae0-4cf0-bf58-8d1f997e8d26",
+            "f3158e61-cf68-4838-9825-a3c5fc2bd857","be0978a5-1717-4c05-8fe8-91094ada6cbf","158e7f72-fa89-4116-ab8c-e62db58c5c66",
+            "55e2ea05-607b-4196-a69d-623060657222","69dddd12-b9a3-4712-8fd3-36f3f1c1512e","006627b0-0409-40b2-9ac0-a6aca5778449",
+            "2a3fd4e5-c23f-49e8-b4dd-e1ae41d4c1a8","782bb44e-8881-49f9-a78a-db59443a058c","c5deb816-899c-45d0-a920-db5cce26f9b4",
+            "69fb9dd9-a54d-4f96-bbcf-008524483fe3","c5cfa38e-72a2-4454-a79a-56b6f054e339","8b5187bf-7a10-4eb0-b64f-a4b24716e9bb",
+            "4a674ad5-b988-4a8e-8b12-33434f525cd5","28c51972-b1bb-46c2-8034-32c687cfc7b1","186d83e1-a45f-41a7-9524-e4cf5631953d",
+            "5a5e4da3-3124-496f-9df5-0b2718a0de61","c051d260-114d-4442-8ef3-034fc00f474f","5ac2043f-0101-4fbc-9f56-40a984d5dd34",
+            "5cc477eb-0bd5-4c50-b0e4-1e5fee777d52","be240b6f-846e-4477-bc88-ab406db23527","5783170c-d9b7-424f-8344-29412762fe53",
+            "114f977a-ac66-4340-9690-abbb8c87b3ca","32af023e-2961-4029-80b5-95cf9e589605","658af9a7-b052-4895-a8d7-ea9d29066386",
+            "afef1c48-0ff4-4416-962e-a415ae273bf3","9ac34add-d7b3-46b3-8c89-f89a7c1d4e33","80936540-1807-45c0-b9d1-813367a735c5",
+            "235c9288-b690-4c1d-8741-20f9f86c331c","34755632-82a9-468a-984d-7c1174df86cf","4829c00b-ce96-4352-8673-386543fd0b90",
+            "138601b3-1598-4df7-b1a4-5f03a4e04912","94750653-cc9e-4d32-a40c-e32517a55969","3e03d387-61bc-4072-b6c8-966f3f09c7d6",
+            "55a29f26-5c7e-4244-9d83-712249f3d73d","b1fc2576-cd9e-4a20-8eda-0fba15793818","17aa2243-99d3-4a6a-a3d4-952693f5601b",
+            "306fab94-0f66-4522-9dc3-fe64e9331a96","d0cbeb77-310e-4abc-a84b-cb50ddf88631","a168b191-7193-49fe-9ff8-4e79f0ab4765",
+            "c1b4d535-164a-4094-be42-78a64f6a0502","d0fa0b58-e75f-4a62-884a-7597c3a7ac37","a7bddf35-988d-484e-b20e-b3395fa0c652",
+            "2bdb823b-bf0a-44b0-857b-b586816557e6","0cec7e1d-8b95-4dd7-a6ff-2743fbe67e9c","a5eeee57-2a0a-4ed9-b208-84c5e152c61c",
+            "d5c4f3e6-2108-4888-9a86-c4f14e875623","3294ebfc-b356-4de2-877f-8fa3cffef115","f6c2b623-ad66-4b4d-90bd-ea4061f6bbbf",
+            "97cfefbd-0d22-4198-8eb3-e7a3d0d0dbd7","5d8391a5-4a59-4eb8-b7a3-9be878d0f208","7b9f334a-4b39-42e8-bd71-7d5360a6b55c",
+            "edbe5236-9d42-424f-93be-b82bebcdfeb6","cf80f48e-5013-42f2-aa5d-78078323006b","c8f27a5c-15fd-4a11-9eb4-ea5e173ec3b8",
+            "46f31146-5431-4254-86c9-32e0795871ca","776171eb-8e63-4a3d-a52a-35a5d8aafd56","ac3f5676-f5b4-4785-811e-d97fd326af38",
+            "b621e6e6-8829-413f-8cad-f2accf0af7a2","65374fcb-bd36-4a7d-b328-dd1b3154a157","cbe8492a-04ac-4006-9a89-19df09b30e3b",
+            "1ee17610-8873-44eb-877a-7e910c1d79a9","df13f76e-babe-4d43-bdcd-ebe292100da3","b191aa44-723b-454f-9be8-d1525ed1f10d",
+            "ea18972e-b651-4156-b3ca-af3da8714874","09b074ab-892e-41b3-9166-c01c46ff43f7","96dc3361-9f03-4018-ba16-ca7ee563204f",
+            "a84319e4-d7a8-478b-b995-09c865640ed3","31c493b8-8fb4-4e78-ab7e-66bd7f7635ad","5a659617-1725-4e15-b4bb-aa30a235c7c4",
+            "334a7b30-92d5-4d2b-b4b1-59d268607c54","dd45bc94-72b5-4177-80cc-f1e5f55309dd","b984db75-edf0-449d-b123-b23a2a7235e3",
+            "80363911-21d3-49ca-a05c-f2a87531d013","044044ae-7431-4db8-8ece-36e32098e963","86ea2efd-1939-4e8d-bfde-e8342874447c",
+            "94255a0f-ac2d-46a0-a286-6825bfa7667d","f4722f8b-c0e2-4089-a73e-e93622fd8cc8","393264ab-1f88-4dfc-9b2a-10b78bf9ae1b",
+            "fd917556-a4e7-4cb6-8244-bdad685bafdb","7aecc098-912b-4bbf-8745-1879c5cb1ea7","117a83f0-19d5-44dc-b583-eec9d32c0168",
+            "dcf79f0f-bc26-49a5-8374-a55d350d134b","6dd07f5f-b327-41bd-bc64-7071367d4c9b","7698b3d8-989a-406e-b878-96b07ad3e2cf",
+            "1c2c5260-27c4-4098-ab91-041bbe95b8e0","42ffcee9-4a2a-4d60-877e-e6e6e8f7e311","219fb71f-e812-47a9-bd9c-868a4d77f207",
+            "7a046f95-bd2d-43eb-aea7-fbe4f47c7ea5","7f2b115a-2886-45f3-8fae-9f8b690b0db1","887c4bb2-d7cc-4352-9f64-7b67189bf604",
+            "d4f6ab67-9aa7-4987-be77-f10133ab3bbe","92d43df1-b008-4299-b798-d8513482616c","17eeabaf-9200-4a3f-9c2f-473c92e2df9b",
+            "1b44e32c-4447-4785-83f1-6add6cec380d","7374815d-b750-4310-aebf-17f12a518530","beac4624-28c7-4cc0-8232-538537ef0409",
+            "d29686d8-be09-4df7-9bb6-f445a38417da","8d16280d-eb3c-4a8b-8cdf-c166822f8c14","c0c39ec0-bde3-4e69-913d-432a17bb56bc",
+            "8724408f-8f5d-4227-8f3d-519dd3bfab8c","19e732a7-0bd3-459a-943b-74607ddbeca7","b91b72a3-dfb8-4d05-899a-8c2d8cdf08e2",
+            "d1514c0a-58f7-485a-9f98-e66ca05dab7f","ce779a80-3374-4d1a-9a85-01b9b8ea1d96","5ebb10da-0f62-47b3-a123-efcf7bbd7ab5",
+            "dca04168-3dfc-40ae-9917-cc4a1b5d5836","2165a4bf-d3b1-4de8-8b8b-6bb727ca4808","fe460a1c-4e94-4277-8dc3-9681e5fb2b3f",
+            "d1ef1070-ce3d-4b6b-94b6-9b3ff2af174c","63ee533e-bb33-4572-9fd2-c0ea6ce84fd2","6cd3352d-21b0-4d63-98a5-850bfc0365dc",
+            "dd217130-e80d-44b5-87a5-add8879ba56f","44cabc9c-47f0-430a-be41-129a81965596","f798cebc-49e9-45fc-8af9-e9bcf810d5ea",
+            "4f03749f-3cab-4984-bed5-169f727318ab","9511bf6e-7e31-4bb1-9d2b-6e604c30de44","66a2e01f-73d2-470c-a788-508e5a678dc4",
+            "2e6de790-56b8-47ea-b1b0-37906b772996","100826d4-c32c-4288-b72e-576ba23305c2","32590ca5-b51a-40a5-beb1-025d4a513b51",
+            "e2868d1e-994b-4621-855f-d39cf09c4514","c5c5a9e4-51f6-4fd0-ae3a-f6788716b9dd","1bd1a1de-f353-454c-8438-cbe86532c45b",
+            "943270bf-ef9f-4559-95a0-48436a693a89","7198b3bb-dbd0-418c-90e7-b4e109417e27","1ae7d07a-f9f8-4477-9859-0b9b1ef50a51",
+            "1c08383e-5a81-4275-ad83-8a180179ecfe","4590c7cc-c26a-4c9d-8f2e-064d81d7bb1f","a7656913-0361-424c-a65a-0cf10270577c",
+            "e2aec73e-211f-4acb-9940-4a8c63330455","eb43838a-b8a7-4944-8f13-dff3e276dfcb","bcee101d-c3f5-4685-8330-3155a7450587",
+            "e4f25273-4560-4656-bfce-728946647e0d","3c89e8b6-85c8-4940-ac24-cf35168f6967","334eec65-7075-4f4c-b28d-6187aaeac8a6",
+            "969edace-c3ea-4e67-9203-de75b3f1b595","19a5f160-9f81-493c-97ba-6e5fdf0f26bb","feeb5cb6-055b-48fa-8206-f4d6dd78b963",
+            "4f00857b-23c3-469e-9e44-a272585135ce","df4976c3-1bd6-46cd-b134-a5c77086ba3f","e2d5be46-a8f9-4caf-ab5c-b96870f89756",
+            "65e53622-22ac-4068-b5d5-659a555a3f9f","2635167c-487a-4311-9e42-369106695f86","1fef703f-1f83-407b-bd1c-55db92b85ac9",
+            "45b2a03e-dffb-4724-8488-feed1591f085","4ba330ac-0a4c-4d01-8636-09028285a752","28fc81e8-3b25-4c30-853e-44fcc803afad",
+            "3b7ec4bc-0b2e-4f24-944c-e23c3df2701c","106935fa-2384-4615-802b-46fe291bbe62","bc7cbb37-932b-48d2-b59c-5fb488df14f9",
+            "8d931756-9240-4d86-87ac-59d3d4ae167e","7e612121-7d47-41b0-a954-d7c46026c560","abc45bfc-9741-4260-90af-06bceff3410a",
+            "e769974a-4db7-4980-9c6a-a196717147a9","f1695fd1-1e52-438f-8aa0-0bd6fb6439be","776bcb27-fa02-4645-84aa-9c9d95cba6f4",
+            "5be1cd04-af75-4e25-9cd2-5b8f92958758","6e59ec61-18a4-4c3a-87fa-364e26939791","294c8899-a19a-40b9-98d5-4e4c1bfe0034",
+            "e0073bc7-0867-4d4b-9409-e298a68fcac5","d6fd6bb4-5ec7-42da-bc59-2dd4ef1d876f","3fe1793f-66da-41a3-92dd-d96bb0f2697b",
+            "54f85c6b-da66-4156-a291-b5b79159d43a","8bbc6a96-6c94-4fa8-ac96-b68c893fdd53","25115e2d-ad91-469c-adda-804f1260b050",
+            "4796b87c-ab5c-4939-96b0-1cf3bd681006","09732a1c-30b1-41fa-92d1-b1a2139fbdd6","1241905f-e41b-4486-9a31-08c321a5d6ab",
+            "e7a37239-5d7c-4903-a3b9-5d525fd6675c","91d3f73c-049d-4e85-aba7-8d43eb67390c","1b8eaab3-de4b-4e9c-893c-a45a705dab32",
+            "0bbcc6c2-9eb9-4921-a79b-c00958a20cd3","b724c150-506c-4d9f-8996-5301a23bbac9","163cacd8-e4a2-418b-baae-a25877849e7e",
+            "d8cfccae-fa40-4ef8-aade-f0479cde9a5e","7c5a743f-474e-47d2-9d21-ef6413d3db3d","5f2d15f2-d2b4-44fa-bb7e-e159bbc32740",
+            "83458d07-54a8-417a-a372-4540c668c54a","c5c55306-854b-4780-821c-247add704b8e","2f2a1be0-9874-47c1-9a1a-721b6040f44d",
+            "53dba576-aecf-43e0-99f0-cf45fea7dceb","0216e22e-f4b7-4dea-97d0-d5d3c2a8747d","9a85aabf-34e7-4917-bb93-236c93a46737",
+            "6e5afa36-f68b-42e2-a1e7-fae2aae8c9e8","17db7994-2b7a-41f4-9994-4e2441e7d19a","c6249219-d50e-44ee-b439-d5e42deaf8f1",
+            "7f091df8-4019-4455-b39b-4353d072d21a","84e791d1-59f3-4548-ab59-d506a6f176b4","55eccbdb-f709-4f54-8574-22fac1056577",
+            "9547ea6c-6e7e-46b0-b54a-393c4a9d240b","31a8c933-7879-46c3-b4b7-51a817e0ffd0","303b425c-399a-443b-bb01-596844d1a73a",
+            "e7a4eba0-10ba-4e4c-ab95-cfa9f302b9d9","b8451ba3-426c-45ba-b635-4b4516b6cb88","e0bb19a6-0013-48d5-9f0c-8697b6d25406",
+            "a1516adc-722e-44bf-bd7b-61a028532d72","8c9d8b11-d89e-4a69-b020-3447dbcbd241","8cbdaf38-0c7f-4617-9000-b8043ad97e0d",
+            "4d175548-63c6-4312-852a-b65e0d42988b","4ec783d3-b326-471a-8758-7aa4662977ce","4fa333ef-b610-48ac-883e-95b58088a588",
+            "e5a9c7e7-286e-41db-b66a-5545bb7d6cf5","34585737-0d19-4f3d-a739-75d3fcb0b29f","7bb25a26-40cc-4548-856d-6705fe41d403",
+            "211bdfc5-b629-49c2-a3e0-4f25e35126b1","e466648f-86cf-4779-9184-d113a0a6dbb4","c677d3df-3e70-4ab0-824d-7ddfeef8f568"
+        ];
 
         function showPaymentModal() {
-            const stock = parseInt(localStorage.getItem('leafGlobalStock')) || 0;
-            if (stock <= 0) return alert("Out of Stock!");
             document.getElementById('paymentModal').style.display = 'flex';
         }
 
@@ -153,19 +418,15 @@
         }
 
         function processPurchase() {
-            let stock = parseInt(localStorage.getItem('leafGlobalStock')) || 0;
-            if (stock <= 0) return;
-
-            stock--;
-            localStorage.setItem('leafGlobalStock', stock);
-
-            const newKey = "LEAF-" + Math.random().toString(36).substring(2, 15).toUpperCase();
+            if (availableKeys.length === 0) {
+                alert("No more keys available.");
+                return;
+            }
+            const index = Math.floor(Math.random() * availableKeys.length);
+            const newKey = availableKeys.splice(index, 1)[0];
             purchased.push(newKey);
             localStorage.setItem('purchasedKeys', JSON.stringify(purchased));
-
-            updateStock();
             closeModal();
-
             setTimeout(() => {
                 alert(`✅ Payment Successful!\n\nYour Lifetime Key:\n\n${newKey}`);
             }, 600);
@@ -180,7 +441,15 @@
 
         function renderMyKeys() {
             const div = document.getElementById('purchasedKeys');
-            div.innerHTML = purchased.length ? purchased.map(k => `<div class="key-display">${k}</div>`).join('') : "<p>You haven't purchased any keys yet.</p>";
+            if (purchased.length === 0) {
+                div.innerHTML = "<p>You haven't purchased any keys yet.</p>";
+                return;
+            }
+            let html = '';
+            purchased.forEach(key => {
+                html += `<div class="key-display">${key}</div>`;
+            });
+            div.innerHTML = html;
         }
 
         document.querySelectorAll('.view-more-btn').forEach(btn => {
@@ -190,13 +459,6 @@
                 btn.textContent = box.style.display === 'block' ? 'Hide' : 'View More';
             });
         });
-
-        // Update when other tabs change stock
-        window.addEventListener('storage', (e) => {
-            if (e.key === 'leafGlobalStock') updateStock();
-        });
-
-        updateStock();
     </script>
 </body>
 </html>
