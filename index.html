@@ -5,9 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rumble | Premium Roblox Rivals Exploits</title>
     <style>
-        :root { --bg-main: #0a0a0c; --bg-card: #121216; --accent-blue: #0070f3; --accent-glow: #00d2ff; --text-main: #ffffff; --text-muted: #8a8f98; --border-color: #1e222b; --discord-color: #5865F2; }
+        :root {
+            --bg-main: #0a0a0c; --bg-card: #121216; --accent-blue: #0070f3; --accent-glow: #00d2ff;
+            --text-main: #ffffff; --text-muted: #8a8f98; --border-color: #1e222b;
+        }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-        body { background: var(--bg-main) url('https://i.redd.it/if7tb8y3u3781.gif') center/cover no-repeat fixed; color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; position: relative; }
+        body {
+            background: var(--bg-main) url('https://i.redd.it/if7tb8y3u3781.gif') center/cover no-repeat fixed;
+            color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+            padding: 40px 20px; position: relative;
+        }
         body::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 10, 12, 0.75); z-index: -1; }
         header { text-align: center; margin-bottom: 25px; z-index: 2; }
         header h1 { font-size: 3.5rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; background: linear-gradient(135deg, #fff 0%, #0070f3 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
@@ -38,26 +45,6 @@
 
     <div id="shopTab" class="container">
         <div class="card">
-            <span class="card-tag">Free</span>
-            <div><h2>Kicia Lua</h2><p>An optimized, feature-rich script built specifically for dominating Roblox Rivals.</p>
-                <div class="code-box" id="kiciaLuaCode">loadstring(game:HttpGet("https://api.jnkie.com/api/v1/luascripts/public/49b8d52e1d647a32b42dcc0ada6d9cd3b13895e3fdeaaea0c7e9e9a4906b19eb/download"))()</div>
-            </div>
-            <div class="button-group">
-                <button class="btn btn-primary view-more-btn" data-target="kiciaLuaCode">View More</button>
-                <a href="https://discord.gg/neyKuC7fyb" target="_blank" class="btn btn-secondary">Get Free Key (Discord)</a>
-            </div>
-        </div>
-        <div class="card">
-            <span class="card-tag">Free</span>
-            <div><h2>Kiciahook</h2><p>The ultimate execution choice for flawless gameplay enhancement.</p>
-                <div class="code-box" id="kiciaHookCode">loadstring(game:HttpGet("https://raw.githubusercontent.com/kiciahook/kiciahook/refs/heads/main/loader.luau"))()</div>
-            </div>
-            <div class="button-group">
-                <button class="btn btn-primary view-more-btn" data-target="kiciaHookCode">View More</button>
-                <a href="https://ads.luarmor.net/get_key?for=-SMXIkbgLHBUc" target="_blank" class="btn btn-secondary">Get Free Key</a>
-            </div>
-        </div>
-        <div class="card">
             <span class="card-tag">Premium</span>
             <div>
                 <h2>LEAF</h2>
@@ -76,12 +63,6 @@
         <div class="card">
             <h2>My Purchased Keys</h2>
             <div id="purchasedKeys" style="margin-top:15px;"></div>
-            <div style="margin-top:30px; padding:20px; background:#1e222b; border-radius:12px;">
-                <h3>Redemption Instructions</h3>
-                <p>1. Join our Discord server: <a href="https://discord.gg/JUcaTn3PkK" target="_blank" style="color:#00d2ff;">https://discord.gg/JUcaTn3PkK</a></p>
-                <p>2. Go to the <strong>#LEAF</strong> channel</p>
-                <p>3. Paste your key there to redeem it.</p>
-            </div>
         </div>
     </div>
 
@@ -97,7 +78,7 @@
 
     <script>
         let purchased = JSON.parse(localStorage.getItem('purchasedKeys')) || [];
-        let availableKeys = [
+        let availableKeys = [ /* your full list from before */ 
             "0c1f6f3e-e970-4536-bb45-1b3ab442e551","93cc1922-9112-4328-9b3a-eb83b3a4b9f2",
             "8d55b65a-78bd-46d8-a40a-f4c96014d1e7","bd36d79a-4afe-4213-840b-bda359d0db5d","26d82425-9d14-40d9-b349-f3ee0553e789",
             "991726e1-018c-485d-a9a6-1f77cb1a471f","469457a6-9416-49bf-9d9b-6ca7e6b36471","84ff9561-b759-42ef-ac10-3f1f0948dc52",
@@ -149,14 +130,16 @@
         }
 
         function processPurchase() {
-            if (availableKeys.length === 0) return;
+            if (availableKeys.length === 0) return alert("Out of Stock!");
             const index = Math.floor(Math.random() * availableKeys.length);
             const newKey = availableKeys.splice(index, 1)[0];
             purchased.push(newKey);
             localStorage.setItem('purchasedKeys', JSON.stringify(purchased));
             updateStock();
             closeModal();
-            setTimeout(() => alert(`✅ Payment Successful!\n\nYour Lifetime Key:\n\n${newKey}\n\nYou can also find it in "My Account"`), 600);
+            setTimeout(() => {
+                alert(`✅ Payment Successful!\n\nYour Lifetime Key:\n\n${newKey}`);
+            }, 500);
         }
 
         function showTab(n) {
@@ -168,7 +151,7 @@
 
         function renderMyKeys() {
             const div = document.getElementById('purchasedKeys');
-            div.innerHTML = purchased.length === 0 ? "<p>You haven't purchased any keys yet.</p>" : purchased.map(key => `<div class="key-display">${key}</div>`).join('');
+            div.innerHTML = purchased.length ? purchased.map(k => `<div class="key-display">${k}</div>`).join('') : "<p>No keys yet.</p>";
         }
 
         document.querySelectorAll('.view-more-btn').forEach(btn => {
