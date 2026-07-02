@@ -5,103 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rumble | Premium Roblox Rivals Exploits</title>
     <style>
-        :root {
-            --bg-main: #0a0a0c;
-            --bg-card: #121216;
-            --accent-blue: #0070f3;
-            --accent-glow: #00d2ff;
-            --text-main: #ffffff;
-            --text-muted: #8a8f98;
-            --border-color: #1e222b;
-            --discord-color: #5865F2;
-        }
+        :root { --bg-main: #0a0a0c; --bg-card: #121216; --accent-blue: #0070f3; --accent-glow: #00d2ff; --text-main: #ffffff; --text-muted: #8a8f98; --border-color: #1e222b; --discord-color: #5865F2; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-        body {
-            background: var(--bg-main) url('https://i.redd.it/if7tb8y3u3781.gif') center/cover no-repeat fixed;
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex; flex-direction: column; align-items: center;
-            padding: 40px 20px; position: relative;
-        }
-        body::after {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(10, 10, 12, 0.75); z-index: -1;
-        }
+        body { background: var(--bg-main) url('https://i.redd.it/if7tb8y3u3781.gif') center/cover no-repeat fixed; color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; position: relative; }
+        body::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 10, 12, 0.75); z-index: -1; }
         header { text-align: center; margin-bottom: 25px; z-index: 2; }
-        header h1 {
-            font-size: 3.5rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
-            background: linear-gradient(135deg, #fff 0%, #0070f3 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
+        header h1 { font-size: 3.5rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; background: linear-gradient(135deg, #fff 0%, #0070f3 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .nav { display: flex; gap: 20px; margin-bottom: 30px; }
-        .nav-btn {
-            padding: 10px 24px; background: #1e222b; border: none; color: white;
-            border-radius: 8px; cursor: pointer; font-weight: 600;
-        }
+        .nav-btn { padding: 10px 24px; background: #1e222b; border: none; color: white; border-radius: 8px; cursor: pointer; font-weight: 600; }
         .nav-btn.active { background: #0070f3; }
-        .discord-banner {
-            display: inline-flex; align-items: center; justify-content: center; gap: 12px;
-            background: rgba(88,101,242,0.08); border: 1px solid rgba(88,101,242,0.3);
-            border-radius: 30px; padding: 10px 24px; color: #fff; text-decoration: none;
-            font-weight: 600; margin-bottom: 30px;
-        }
-        .container {
-            width: 100%; max-width: 1000px;
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-            gap: 30px;
-        }
-        .card {
-            background: var(--bg-card); border: 1px solid var(--border-color);
-            border-radius: 16px; padding: 30px; display: flex; flex-direction: column;
-            position: relative;
-        }
-        .card-tag {
-            position: absolute; top: 20px; right: 20px;
-            background: rgba(255,193,7,0.15); border: 1px solid #ffc107; color: #ffc107;
-            padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600;
-        }
+        .discord-banner { display: inline-flex; align-items: center; justify-content: center; gap: 12px; background: rgba(88,101,242,0.08); border: 1px solid rgba(88,101,242,0.3); border-radius: 30px; padding: 10px 24px; color: #fff; text-decoration: none; font-weight: 600; margin-bottom: 30px; }
+        .container { width: 100%; max-width: 1000px; display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; }
+        .card { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 30px; display: flex; flex-direction: column; position: relative; }
+        .card-tag { position: absolute; top: 20px; right: 20px; background: rgba(255,193,7,0.15); border: 1px solid #ffc107; color: #ffc107; padding: 4px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
         .stock { color: #0f0; font-weight: bold; margin: 12px 0; }
-        .code-box { display: none; background: #070709; border: 1px solid #1a1a22; border-radius: 8px; padding: 12px;
-            font-family: monospace; color: #00d2ff; margin: 15px 0; max-height: 120px; overflow-y: auto; }
+        .code-box { display: none; background: #070709; border: 1px solid #1a1a22; border-radius: 8px; padding: 12px; font-family: monospace; color: #00d2ff; margin: 15px 0; max-height: 120px; overflow-y: auto; }
         .button-group { display: flex; flex-direction: column; gap: 10px; }
-        .btn {
-            padding: 12px 20px; border-radius: 8px; font-weight: 600;
-            text-align: center; cursor: pointer;
-        }
+        .btn { padding: 12px 20px; border-radius: 8px; font-weight: 600; text-align: center; cursor: pointer; }
         .btn-gradient { background: linear-gradient(135deg, #00d2ff, #0070f3); color: white; font-weight: 700; }
-        .modal {
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); z-index: 1000; align-items: center; justify-content: center;
-        }
-        .modal-content {
-            background: #121216; padding: 35px; border-radius: 16px; width: 90%; max-width: 450px; text-align: center;
-        }
-        .key-display {
-            background: #000; padding: 20px; border-radius: 10px; font-family: monospace;
-            margin: 20px 0; word-break: break-all; color: #0f0; font-size: 1.1rem;
-        }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 1000; align-items: center; justify-content: center; }
+        .modal-content { background: #121216; padding: 35px; border-radius: 16px; width: 90%; max-width: 450px; text-align: center; }
+        .key-display { background: #000; padding: 20px; border-radius: 10px; font-family: monospace; margin: 20px 0; word-break: break-all; color: #0f0; font-size: 1.1rem; }
     </style>
 </head>
 <body>
-    <header>
-        <h1>Rumble</h1>
-        <p>Premium & Undetected Roblox Rivals Scripts</p>
-    </header>
+    <header><h1>Rumble</h1><p>Premium & Undetected Roblox Rivals Scripts</p></header>
     <div class="nav">
         <button class="nav-btn active" onclick="showTab(0)">Shop</button>
         <button class="nav-btn" onclick="showTab(1)">My Account</button>
     </div>
-    <a href="https://discord.gg/HTgmQbDBfg" target="_blank" class="discord-banner">
-        Join Rumble Discord
-    </a>
+    <a href="https://discord.gg/HTgmQbDBfg" target="_blank" class="discord-banner">Join Rumble Discord</a>
 
-    <!-- Shop Tab -->
     <div id="shopTab" class="container">
         <div class="card">
             <span class="card-tag">Free</span>
-            <div>
-                <h2>Kicia Lua</h2>
-                <p>An optimized, feature-rich script built specifically for dominating Roblox Rivals.</p>
+            <div><h2>Kicia Lua</h2><p>An optimized, feature-rich script built specifically for dominating Roblox Rivals.</p>
                 <div class="code-box" id="kiciaLuaCode">loadstring(game:HttpGet("https://api.jnkie.com/api/v1/luascripts/public/49b8d52e1d647a32b42dcc0ada6d9cd3b13895e3fdeaaea0c7e9e9a4906b19eb/download"))()</div>
             </div>
             <div class="button-group">
@@ -111,9 +49,7 @@
         </div>
         <div class="card">
             <span class="card-tag">Free</span>
-            <div>
-                <h2>Kiciahook</h2>
-                <p>The ultimate execution choice for flawless gameplay enhancement.</p>
+            <div><h2>Kiciahook</h2><p>The ultimate execution choice for flawless gameplay enhancement.</p>
                 <div class="code-box" id="kiciaHookCode">loadstring(game:HttpGet("https://raw.githubusercontent.com/kiciahook/kiciahook/refs/heads/main/loader.luau"))()</div>
             </div>
             <div class="button-group">
@@ -136,30 +72,24 @@
         </div>
     </div>
 
-    <!-- My Account Tab -->
     <div id="accountTab" class="container" style="display:none;">
         <div class="card">
             <h2>My Purchased Keys</h2>
             <div id="purchasedKeys" style="margin-top:15px;"></div>
-           
             <div style="margin-top:30px; padding:20px; background:#1e222b; border-radius:12px;">
                 <h3>Redemption Instructions</h3>
-                <p>1. Join our Discord server:<br>
-                   <a href="https://discord.gg/JUcaTn3PkK" target="_blank" style="color:#00d2ff;">https://discord.gg/JUcaTn3PkK</a></p>
+                <p>1. Join our Discord server: <a href="https://discord.gg/JUcaTn3PkK" target="_blank" style="color:#00d2ff;">https://discord.gg/JUcaTn3PkK</a></p>
                 <p>2. Go to the <strong>#LEAF</strong> channel</p>
                 <p>3. Paste your key there to redeem it.</p>
             </div>
         </div>
     </div>
 
-    <!-- Payment Modal -->
     <div id="paymentModal" class="modal">
         <div class="modal-content">
             <h2>Buy LEAF Lifetime Key</h2>
             <p>Price: <strong>$3</strong></p>
-            <button onclick="processPurchase()" style="background:#00ff00;color:#000;padding:14px 40px;border:none;border-radius:8px;font-size:1.1rem;font-weight:bold;cursor:pointer;margin:20px 0;">
-                Complete Purchase
-            </button>
+            <button onclick="processPurchase()" style="background:#00ff00;color:#000;padding:14px 40px;border:none;border-radius:8px;font-size:1.1rem;font-weight:bold;cursor:pointer;margin:20px 0;">Complete Purchase</button>
             <button onclick="closeModal()" style="background:transparent;border:1px solid #555;color:#aaa;padding:8px 20px;">Cancel</button>
         </div>
     </div>
@@ -167,56 +97,43 @@
 
     <script>
         let purchased = JSON.parse(localStorage.getItem('purchasedKeys')) || [];
-        let availableKeys = [];
-
-        async function loadSharedKeys() {
-            try {
-                // TODO: Replace with your public JSON URL later for real shared stock
-                // const response = await fetch('https://your-keys.json');
-                // availableKeys = await response.json();
-            } catch (e) {}
-
-            // Current keys (fallback)
-            availableKeys = [
-                "0c1f6f3e-e970-4536-bb45-1b3ab442e551",
-                "93cc1922-9112-4328-9b3a-eb83b3a4b9f2",
-                "8d55b65a-78bd-46d8-a40a-f4c96014d1e7","bd36d79a-4afe-4213-840b-bda359d0db5d","26d82425-9d14-40d9-b349-f3ee0553e789",
-                "991726e1-018c-485d-a9a6-1f77cb1a471f","469457a6-9416-49bf-9d9b-6ca7e6b36471","84ff9561-b759-42ef-ac10-3f1f0948dc52",
-                "7ed950bd-18fd-4727-a414-7adbdd4e9c7e","33d8bab8-89f6-4d10-ac94-1180254b308b","6dfc5d92-bb95-4480-b082-2c66a954f16e",
-                "203f6e19-d7c1-45b4-a8a7-44e229a622f9","83ce2a2f-bbd4-4675-8bf4-d7cb95db05ea","21e0dc24-e91c-4184-991e-25b86d3fdedd",
-                "6abe0a4c-c091-48b4-9581-7c731acac651","35dadc0c-31a4-446e-b6d3-e74e169279d3","8b583883-4079-4dae-8f23-4f2d85d0e508",
-                "04c39d0a-cc40-4177-adef-8a99331ba4fe","4fee06ce-a9e5-49d7-8cc0-3e946915b180","aa9113f6-7e8b-4a0a-b7aa-f64529303f87",
-                "43696612-f0e4-4fed-b197-2cd1798df7f4","5eb3f504-af71-47f5-ad7c-fc83bc16a827","8b2d1c37-6688-4d64-9ce7-43014d8c74dc",
-                "0c711de5-563e-4c6e-a6b7-b3d5a9562eb8","83267663-a560-481b-b25d-3428a0c5a9af","5538c189-ad01-4c8c-a873-dd9cd90be423",
-                "c9218475-3d6d-4946-83b6-c48c108bfe14","efb732d2-aae2-4755-8768-070a26f01fe5","38036ee1-c2c9-488b-b5cf-6a5c17db9e56",
-                "6e13342d-0c87-4571-ae49-abf603d1daa8","5660b8ba-9c54-4861-8c6b-e3c6bb0a3445","22a709cf-eb38-49da-b9df-e845cf1d5aab",
-                "be6b8970-ed6f-49c6-9b94-d5a4f6ceb18e","36553241-22d7-4de9-9a0c-374b016c67d0","e40f6116-6124-4e12-874b-51008a9accb5",
-                "380c5f2d-d665-4244-b064-283a808106f2","68bf0994-3717-43ad-afbe-87dde17e7293","a6ecebd5-8a50-4725-bf8c-d7e77c9db580",
-                "8dde2fad-ef46-40a9-86fa-8d594952bae7","c44fa182-fb9f-4c1c-9588-cd0c6f74c356","ecf6b743-13fa-4b0b-bacb-4a6681a0de70",
-                "d341b746-351e-4b8c-881c-b1fee8fca414","0a177181-59f2-4846-9cf0-294f16edc2a1","6badcad9-2616-4520-850e-196def8a5e9d",
-                "5b133fb6-4c0c-4491-b776-957359f57ebd","84bcb858-7c08-4d20-a6f9-422af31f988e","c970162c-6fb5-4414-b7a4-8b86203c9cfb",
-                "4a25db48-ffcf-4ec7-a29b-975629b4b974","b9eb2571-74d4-40ff-9cbe-d1f43688f077","59c26b1e-31f8-4492-834c-a2f7ce259de5",
-                "249af62f-e037-4727-b5ac-7c0348aaabea","2271b2bc-a07e-4ddd-ad40-41d858b2fa0d","6f9bed0d-c70d-4a2e-91cc-134e7ec595f4",
-                "f36e98d7-eecb-4565-8f99-7f082797bee4","d45a78a9-2d9f-47a3-aec1-0a3133143278","f0ec3a11-e745-4f95-80e4-eb89843a0831",
-                "e83ffbd3-8dc5-47b5-aff9-929491bea3bd","d7d5f286-e088-4cc0-906b-0e9d57f08647","c79d4d3b-9eaa-47c1-ad08-c5c724381a8a",
-                "9c1fe3a1-00e9-4915-99c0-4cf243e2a08f","ea1f5bf3-cd62-4759-a1e1-69e811dad712","4e6d8d3a-c6d3-492e-bfca-14e2459ed230",
-                "c231e843-a72d-4cd5-a45b-e182ad08a661","b7f619b9-6c08-4a5c-b8f6-4f94b03f781b","eda162c2-e503-4327-a4b8-fe93fb3224ce",
-                "6bdecc14-e642-483d-b3b3-2f4044afe41d","635c52de-b6a0-45bc-9003-08884b41819d","32938606-1637-462b-9525-51397cc5344a",
-                "23584984-6535-4a08-aa48-fe3e3a13fba3","82afaa2a-0f0c-4582-86a8-a7fddfde7bb5","e05e624a-b7eb-4529-a66f-044c294f45a7",
-                "30c48cb5-6c58-40de-a873-ebf5eab6fbd7","04e7e4f8-b50c-4779-b344-929744b4e477","ca59561b-5da1-460b-87e5-93548ab0af8f",
-                "f3e0194c-b6e4-4dbf-bdce-f7104d3881de","61cb7ad8-ee42-4622-bcd1-172194a8f9e1","542de564-cb29-4543-966e-7ab3d3104fd6",
-                "296465c0-86b6-44bd-bf0c-c02d21840827","62a48b35-1f2f-461c-bd94-4abda0b178f8","89430e2d-d8e7-4fc2-906a-e73963ff0142",
-                "e6b2aa7c-5d2e-4350-9da0-29371751c984","6fe4fcf5-2dd7-48a4-ab54-ca971da771aa","2904375d-fefd-418d-8234-4e05abae7d6a",
-                "1427e583-d8b1-40bd-adeb-3d66b45f8fea","8ce4159f-2adc-4993-80a3-868f47eee9d0","630934a4-beb3-41be-85ea-50dc98b85f34",
-                "03beda9f-31f8-4b7e-b8a4-a689b03e186c","2a16376f-f3d0-4450-978e-0e2a28ae8341","c0009c78-0836-4843-82a1-902ef2e093a2",
-                "fdd0eb1a-e92a-4317-9ffe-2646327378e8","9b5dbd2f-cad4-4a35-89b3-24432a7f2506","c3d3e200-677e-48af-acec-9f517d581d0b",
-                "9dd5e991-6dff-41d7-b3b7-881b7978d69d","4945cb53-8153-4950-8142-3105eb0a4167","76e9042c-2d60-42e4-aac1-2f735002b6b0",
-                "d4deeac9-8db0-470a-a6d8-e8c59e8d08bd","4ccab8d4-a1f2-4aef-8a11-43b54c823730","9e6ca432-761f-42f2-b1a3-eebe65a6c71d",
-                "939cbb6d-bc37-4716-9f29-4062b148b7a7","3013444d-0915-4c15-a518-5ae5caf9d536","6c8569fb-c826-45ce-8b7f-f24714103b65",
-                "d12cc621-bc6e-4b0f-9114-162cb12254c2"
-            ];
-            updateStock();
-        }
+        let availableKeys = [
+            "0c1f6f3e-e970-4536-bb45-1b3ab442e551","93cc1922-9112-4328-9b3a-eb83b3a4b9f2",
+            "8d55b65a-78bd-46d8-a40a-f4c96014d1e7","bd36d79a-4afe-4213-840b-bda359d0db5d","26d82425-9d14-40d9-b349-f3ee0553e789",
+            "991726e1-018c-485d-a9a6-1f77cb1a471f","469457a6-9416-49bf-9d9b-6ca7e6b36471","84ff9561-b759-42ef-ac10-3f1f0948dc52",
+            "7ed950bd-18fd-4727-a414-7adbdd4e9c7e","33d8bab8-89f6-4d10-ac94-1180254b308b","6dfc5d92-bb95-4480-b082-2c66a954f16e",
+            "203f6e19-d7c1-45b4-a8a7-44e229a622f9","83ce2a2f-bbd4-4675-8bf4-d7cb95db05ea","21e0dc24-e91c-4184-991e-25b86d3fdedd",
+            "6abe0a4c-c091-48b4-9581-7c731acac651","35dadc0c-31a4-446e-b6d3-e74e169279d3","8b583883-4079-4dae-8f23-4f2d85d0e508",
+            "04c39d0a-cc40-4177-adef-8a99331ba4fe","4fee06ce-a9e5-49d7-8cc0-3e946915b180","aa9113f6-7e8b-4a0a-b7aa-f64529303f87",
+            "43696612-f0e4-4fed-b197-2cd1798df7f4","5eb3f504-af71-47f5-ad7c-fc83bc16a827","8b2d1c37-6688-4d64-9ce7-43014d8c74dc",
+            "0c711de5-563e-4c6e-a6b7-b3d5a9562eb8","83267663-a560-481b-b25d-3428a0c5a9af","5538c189-ad01-4c8c-a873-dd9cd90be423",
+            "c9218475-3d6d-4946-83b6-c48c108bfe14","efb732d2-aae2-4755-8768-070a26f01fe5","38036ee1-c2c9-488b-b5cf-6a5c17db9e56",
+            "6e13342d-0c87-4571-ae49-abf603d1daa8","5660b8ba-9c54-4861-8c6b-e3c6bb0a3445","22a709cf-eb38-49da-b9df-e845cf1d5aab",
+            "be6b8970-ed6f-49c6-9b94-d5a4f6ceb18e","36553241-22d7-4de9-9a0c-374b016c67d0","e40f6116-6124-4e12-874b-51008a9accb5",
+            "380c5f2d-d665-4244-b064-283a808106f2","68bf0994-3717-43ad-afbe-87dde17e7293","a6ecebd5-8a50-4725-bf8c-d7e77c9db580",
+            "8dde2fad-ef46-40a9-86fa-8d594952bae7","c44fa182-fb9f-4c1c-9588-cd0c6f74c356","ecf6b743-13fa-4b0b-bacb-4a6681a0de70",
+            "d341b746-351e-4b8c-881c-b1fee8fca414","0a177181-59f2-4846-9cf0-294f16edc2a1","6badcad9-2616-4520-850e-196def8a5e9d",
+            "5b133fb6-4c0c-4491-b776-957359f57ebd","84bcb858-7c08-4d20-a6f9-422af31f988e","c970162c-6fb5-4414-b7a4-8b86203c9cfb",
+            "4a25db48-ffcf-4ec7-a29b-975629b4b974","b9eb2571-74d4-40ff-9cbe-d1f43688f077","59c26b1e-31f8-4492-834c-a2f7ce259de5",
+            "249af62f-e037-4727-b5ac-7c0348aaabea","2271b2bc-a07e-4ddd-ad40-41d858b2fa0d","6f9bed0d-c70d-4a2e-91cc-134e7ec595f4",
+            "f36e98d7-eecb-4565-8f99-7f082797bee4","d45a78a9-2d9f-47a3-aec1-0a3133143278","f0ec3a11-e745-4f95-80e4-eb89843a0831",
+            "e83ffbd3-8dc5-47b5-aff9-929491bea3bd","d7d5f286-e088-4cc0-906b-0e9d57f08647","c79d4d3b-9eaa-47c1-ad08-c5c724381a8a",
+            "9c1fe3a1-00e9-4915-99c0-4cf243e2a08f","ea1f5bf3-cd62-4759-a1e1-69e811dad712","4e6d8d3a-c6d3-492e-bfca-14e2459ed230",
+            "c231e843-a72d-4cd5-a45b-e182ad08a661","b7f619b9-6c08-4a5c-b8f6-4f94b03f781b","eda162c2-e503-4327-a4b8-fe93fb3224ce",
+            "6bdecc14-e642-483d-b3b3-2f4044afe41d","635c52de-b6a0-45bc-9003-08884b41819d","32938606-1637-462b-9525-51397cc5344a",
+            "23584984-6535-4a08-aa48-fe3e3a13fba3","82afaa2a-0f0c-4582-86a8-a7fddfde7bb5","e05e624a-b7eb-4529-a66f-044c294f45a7",
+            "30c48cb5-6c58-40de-a873-ebf5eab6fbd7","04e7e4f8-b50c-4779-b344-929744b4e477","ca59561b-5da1-460b-87e5-93548ab0af8f",
+            "f3e0194c-b6e4-4dbf-bdce-f7104d3881de","61cb7ad8-ee42-4622-bcd1-172194a8f9e1","542de564-cb29-4543-966e-7ab3d3104fd6",
+            "296465c0-86b6-44bd-bf0c-c02d21840827","62a48b35-1f2f-461c-bd94-4abda0b178f8","89430e2d-d8e7-4fc2-906a-e73963ff0142",
+            "e6b2aa7c-5d2e-4350-9da0-29371751c984","6fe4fcf5-2dd7-48a4-ab54-ca971da771aa","2904375d-fefd-418d-8234-4e05abae7d6a",
+            "1427e583-d8b1-40bd-adeb-3d66b45f8fea","8ce4159f-2adc-4993-80a3-868f47eee9d0","630934a4-beb3-41be-85ea-50dc98b85f34",
+            "03beda9f-31f8-4b7e-b8a4-a689b03e186c","2a16376f-f3d0-4450-978e-0e2a28ae8341","c0009c78-0836-4843-82a1-902ef2e093a2",
+            "fdd0eb1a-e92a-4317-9ffe-2646327378e8","9b5dbd2f-cad4-4a35-89b3-24432a7f2506","c3d3e200-677e-48af-acec-9f517d581d0b",
+            "9dd5e991-6dff-41d7-b3b7-881b7978d69d","4945cb53-8153-4950-8142-3105eb0a4167","76e9042c-2d60-42e4-aac1-2f735002b6b0",
+            "d4deeac9-8db0-470a-a6d8-e8c59e8d08bd","4ccab8d4-a1f2-4aef-8a11-43b54c823730","9e6ca432-761f-42f2-b1a3-eebe65a6c71d",
+            "939cbb6d-bc37-4716-9f29-4062b148b7a7","3013444d-0915-4c15-a518-5ae5caf9d536","6c8569fb-c826-45ce-8b7f-f24714103b65",
+            "d12cc621-bc6e-4b0f-9114-162cb12254c2"
+        ];
 
         function updateStock() {
             document.getElementById('stockDisplay').innerHTML = `Stock: <strong>${availableKeys.length}</strong> keys left`;
@@ -234,15 +151,12 @@
         function processPurchase() {
             if (availableKeys.length === 0) return;
             const index = Math.floor(Math.random() * availableKeys.length);
-            const newKey = availableKeys[index];
-            availableKeys.splice(index, 1);
+            const newKey = availableKeys.splice(index, 1)[0];
             purchased.push(newKey);
             localStorage.setItem('purchasedKeys', JSON.stringify(purchased));
             updateStock();
             closeModal();
-            setTimeout(() => {
-                alert(`✅ Payment Successful!\n\nYour Lifetime Key:\n\n${newKey}\n\nYou can also find it in "My Account"`);
-            }, 600);
+            setTimeout(() => alert(`✅ Payment Successful!\n\nYour Lifetime Key:\n\n${newKey}\n\nYou can also find it in "My Account"`), 600);
         }
 
         function showTab(n) {
@@ -254,15 +168,7 @@
 
         function renderMyKeys() {
             const div = document.getElementById('purchasedKeys');
-            if (purchased.length === 0) {
-                div.innerHTML = "<p>You haven't purchased any keys yet.</p>";
-                return;
-            }
-            let html = '';
-            purchased.forEach(key => {
-                html += `<div class="key-display">${key}</div>`;
-            });
-            div.innerHTML = html;
+            div.innerHTML = purchased.length === 0 ? "<p>You haven't purchased any keys yet.</p>" : purchased.map(key => `<div class="key-display">${key}</div>`).join('');
         }
 
         document.querySelectorAll('.view-more-btn').forEach(btn => {
@@ -273,8 +179,7 @@
             });
         });
 
-        // Start the site
-        loadSharedKeys();
+        updateStock();
     </script>
 </body>
 </html>
