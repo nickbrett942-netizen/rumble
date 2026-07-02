@@ -30,23 +30,49 @@
             align-items: center;
             padding: 40px 20px;
             overflow-x: hidden;
+            position: relative;
         }
-        /* Subtle background glow elements for luxury feel */
+
+        /* Snowfall Background */
         body::before {
             content: '';
-            position: absolute;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://i.imgur.com/0Z8qKzL.gif') repeat;
+            background-size: cover;
+            opacity: 0.45;
+            z-index: -2;
+            pointer-events: none;
+            animation: snowfall 25s linear infinite;
+        }
+
+        @keyframes snowfall {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 1000px; }
+        }
+
+        /* Extra subtle glow layer */
+        body::after {
+            content: '';
+            position: fixed;
             top: -10%;
             left: 50%;
             transform: translateX(-50%);
-            width: 600px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(0, 112, 243, 0.15) 0%, transparent 70%);
+            width: 800px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 112, 243, 0.12) 0%, transparent 70%);
             z-index: -1;
             pointer-events: none;
         }
+
         header {
             text-align: center;
             margin-bottom: 25px;
+            z-index: 2;
+            position: relative;
         }
         header h1 {
             font-size: 3.5rem;
@@ -64,6 +90,7 @@
             font-size: 1.1rem;
             letter-spacing: 1px;
         }
+
         /* Top Discord Banner */
         .discord-banner {
             display: inline-flex;
@@ -81,6 +108,8 @@
             margin-bottom: 50px;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+            position: relative;
         }
         .discord-banner:hover {
             background: var(--discord-color);
@@ -93,6 +122,7 @@
             width: 20px;
             height: 20px;
         }
+
         .container {
             width: 100%;
             max-width: 1000px;
@@ -100,6 +130,8 @@
             grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
             gap: 30px;
             justify-content: center;
+            z-index: 2;
+            position: relative;
         }
         .card {
             background: var(--bg-card);
@@ -143,6 +175,7 @@
             margin-bottom: 25px;
         }
         .code-box {
+            display: none;
             background: #070709;
             border: 1px solid #1a1a22;
             border-radius: 8px;
@@ -152,7 +185,7 @@
             color: #00d2ff;
             word-break: break-all;
             margin-bottom: 20px;
-            max-height: 80px;
+            max-height: 120px;
             overflow-y: auto;
             user-select: all;
         }
@@ -196,7 +229,10 @@
             margin-top: 80px;
             color: var(--text-muted);
             font-size: 0.85rem;
+            z-index: 2;
+            position: relative;
         }
+
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
@@ -219,15 +255,17 @@
         <h1>Rumble</h1>
         <p>Premium & Undetected Roblox Rivals Scripts</p>
     </header>
-    <!-- Top Discord Banner (Main Server) -->
+    
+    <!-- Top Discord Banner -->
     <a href="https://discord.gg/78tc6Y6xvd" target="_blank" class="discord-banner">
         <svg viewBox="0 0 127.14 96.36">
             <path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.44,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a74.37,74.37,0,0,0,6.72-11A68.55,68.55,0,0,1,28,80.17c1.1-.81,2.17-1.66,3.2-2.54a75.61,75.61,0,0,0,64.8,0c1,1,2.1,1.73,3.2,2.54a68.55,68.55,0,0,1-10.74,5.17,74.37,74.37,0,0,0,6.72,11,105.73,105.73,0,0,0,31.06-18.83C129.54,50.12,123.63,27.35,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.93,46,53.8,53,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.24,60,73.24,53S78.41,40.36,84.69,40.36,96.17,46,96,53,91,65.69,84.69,65.69Z"/>
         </svg>
         Join Rumble Discord
     </a>
+
     <div class="container">
-      
+     
         <!-- Card 1: Kicia Lua -->
         <div class="card">
             <span class="card-tag">Free</span>
@@ -237,10 +275,11 @@
                 <div class="code-box" id="kiciaLuaCode">loadstring(game:HttpGet("https://api.jnkie.com/api/v1/luascripts/public/49b8d52e1d647a32b42dcc0ada6d9cd3b13895e3fdeaaea0c7e9e9a4906b19eb/download"))()</div>
             </div>
             <div class="button-group">
-                <button class="btn btn-primary" onclick="copyScript('kiciaLuaCode', this)">Copy Script</button>
-                <a href="https://discord.gg/neyKuC7fyb" target="_blank" class="btn btn-secondary">Get Free Key (Discord)</a>
+                <button class="btn btn-secondary view-more-btn" data-target="kiciaLuaCode">View Script</button>
+                <a href="https://discord.gg/neyKuC7fyb" target="_blank" class="btn btn-secondary" style="display: none;">Get Free Key (Discord)</a>
             </div>
         </div>
+
         <!-- Card 2: Kiciahook -->
         <div class="card">
             <span class="card-tag">Free</span>
@@ -250,10 +289,11 @@
                 <div class="code-box" id="kiciaHookCode">loadstring(game:HttpGet("https://raw.githubusercontent.com/kiciahook/kiciahook/refs/heads/main/loader.luau"))()</div>
             </div>
             <div class="button-group">
-                <button class="btn btn-primary" onclick="copyScript('kiciaHookCode', this)">Copy Script</button>
-                <a href="https://ads.luarmor.net/get_key?for=-SMXIkbgLHBUc" target="_blank" class="btn btn-secondary">Get Free Key</a>
+                <button class="btn btn-secondary view-more-btn" data-target="kiciaHookCode">View Script</button>
+                <a href="https://ads.luarmor.net/get_key?for=-SMXIkbgLHBUc" target="_blank" class="btn btn-secondary" style="display: none;">Get Free Key</a>
             </div>
         </div>
+
         <!-- Card 3: LEAF -->
         <div class="card">
             <span class="card-tag">Free</span>
@@ -263,29 +303,41 @@
                 <div class="code-box" id="leafCode">loadstring(game:HttpGet("https://api.jnkie.com/api/v1/luascripts/public/81232806ae760804190bbd03e89b9c046a91ef175056d49eef4f32ad487bb9c5/download"))()</div>
             </div>
             <div class="button-group">
-                <button class="btn btn-primary" onclick="copyScript('leafCode', this)">Copy Script</button>
-                <a href="https://discord.gg/78tc6Y6xvd" target="_blank" class="btn btn-secondary">Join Discord</a>
+                <button class="btn btn-secondary view-more-btn" data-target="leafCode">View Script</button>
+                <a href="https://discord.gg/78tc6Y6xvd" target="_blank" class="btn btn-secondary" style="display: none;">Join Discord</a>
             </div>
         </div>
     </div>
+
     <footer>
         &copy; 2026 Rumble. All rights reserved.
     </footer>
+
     <script>
-        function copyScript(elementId, button) {
-            const codeText = document.getElementById(elementId).innerText;
-            navigator.clipboard.writeText(codeText).then(() => {
-                const originalText = button.innerText;
-                button.innerText = "Copied!";
-                button.style.background = "#00e676";
-                setTimeout(() => {
-                    button.innerText = originalText;
-                    button.style.background = "var(--accent-blue)";
-                }, 2000);
-            }).catch(err => {
-                alert("Failed to copy text. Please select and copy manually.");
+        // Toggle script visibility
+        document.querySelectorAll('.view-more-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const codeBox = document.getElementById(targetId);
+                const card = this.closest('.card');
+                const keyBtn = card.querySelector('a.btn-secondary');
+
+                if (codeBox.style.display === 'block') {
+                    // Hide
+                    codeBox.style.display = 'none';
+                    this.textContent = 'View Script';
+                    if (keyBtn) keyBtn.style.display = 'none';
+                } else {
+                    // Show
+                    codeBox.style.display = 'block';
+                    this.textContent = 'Hide Script';
+                    if (keyBtn) keyBtn.style.display = 'inline-flex';
+                }
             });
-        }
+        });
+
+        // Optional: Copy functionality if you want to re-add it later
+        // function copyScript(elementId) { ... }
     </script>
 </body>
 </html>
